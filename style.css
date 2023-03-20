@@ -1,0 +1,27 @@
+h1 {
+    color: #C4C4C4;
+}
+
+body {
+    background-color: rgb(20, 20, 20);
+}
+
+.title {
+    text-align: center;
+    border: 3px solid #000000;
+}
+
+.info {
+    text-align: center;
+    color: bisque;
+    vertical-align: top;
+}
+
+.logo-banner { /* TO BE FIXED, SHOULD FILL THE WHOLE WIDTH AND THE TOP */
+    margin: 0px;
+    padding: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+}
