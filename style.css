@@ -15,6 +15,10 @@ body {
     text-align: center;
     color: bisque;
     vertical-align: top;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-top: 3%;
+    display: inline-block;
 }
 
 .logo-banner { /* TO BE FIXED, SHOULD FILL THE WHOLE WIDTH AND THE TOP */
@@ -23,4 +27,26 @@ body {
     top: 0;
     left: 0;
     right: 0;
+}
+
+.menu-bar {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 200px;
+    background-color: rgb(20, 20, 20);
+    padding: 20px;
+}
+
+.menu-button {
+    background-color: rgb(20, 20, 20);
+    border: none;
+}
+
+.menu-button:hover {
+    background-color: rgb(42, 42, 42);
+}
+
+.menu-button:active {
+    background-color: rgb(20, 20, 20);
 }
