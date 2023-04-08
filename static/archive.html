@@ -8,4 +8,24 @@
     <title>Jabolleum - Archiwum Jaboli</title>
 </head>
 <body>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Shops</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table_data %}
+			<tr>
+                <td>{{ row['image'] }}</td>
+				<td>{{ row['name'] }}</td>
+				<td>{{ row['shops'] }}</td>
+				<td>{{ row['score'] }}</td>
+			</tr>
+			{% endfor %}
+        </tbody>
+    </table>
 </body>
