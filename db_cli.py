@@ -17,7 +17,10 @@ def appendfile(file, data):
         json.dump(temp, f, indent=4)
 
 def addentry(file):
+    db = readfile(file)
     data = {}
+    data["id"] = len(db)+1
+    data["image"] = input("Podaj nazwe pliku z obrazkiem (format \"image/obrazek.png\"): ")
     data["name"] = input("Podaj nazwe napoju: ")
     data["shops"] = input("Podaj sklepy w ktorych mozna kupic napoj, oddzielone przecinkiem i spacja: ")
     data["score"] = input("Podaj swoja ocene napoju, od 1 do 10: ")
