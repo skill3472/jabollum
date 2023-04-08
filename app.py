@@ -21,18 +21,17 @@ def archive():
             data = json.load(f)
     else:
         data = []
-    data_with_id = [entry for entry in data if 'id' in entry]
-    for entry in data_with_id:
+    for entry in data:
         if entry["verified"] == False:
-            data_with_id.remove(entry)
-    return render_template('archive.html', table_data=data_with_id)
+            data.remove(entry)
+    return render_template('archive.html', table_data=data)
 
 @app.route('/archive/<int:id>')
 def id(id):
     with open(file, "r") as f:
         data = json.load(f)
     print(data)
-    jabol_d = data[f"{id}"]
+    jabol_d = data[id]
     return render_template('jabol_page.html', jabol_data=jabol_d)
 
 @app.route("/archive/<int:id>/submit-vote", methods=["POST"])
@@ -41,10 +40,11 @@ def submit_vote(id):
         database = json.load(f)
     user_id = request.remote_addr
     score = int(request.form["score"])
-    #
-    #   LOGIC REMOVED, WILL BE ADDED LATER
-    #
-    # return render_template("jabol_page.html", jabol_data=jabol_d)
+    if user_id not in database[id]["votes"]:
+        database[id]["votes"][user_id] = score
+        database[id]["score"] = sum(database[id]["votes"].values()) / len(database[id]["votes"])
+        save_database(database)
+    return render_template("jabol_page.html", jabol_data=database[id])
 
 if(__name__ == '__main__'):
     app.run(debug=True)
