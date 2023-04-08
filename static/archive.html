@@ -20,7 +20,7 @@
         <tbody>
             {% for row in table_data %}
 			<tr>
-                <td>{{ row['image'] }}</td>
+                <td><img src="{{ url_for('static', filename=row['image']) }}"></td>
 				<td>{{ row['name'] }}</td>
 				<td>{{ row['shops'] }}</td>
 				<td>{{ row['score'] }}</td>
