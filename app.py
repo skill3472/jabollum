@@ -17,6 +17,9 @@ def archive():
             data = json.load(f)
     else:
         data = []
+    for entry in data:
+        if entry["verified"] == False:
+            data.remove(entry)
     return render_template('archive.html', table_data=data)
 
 @app.route('/archive/<id>')
