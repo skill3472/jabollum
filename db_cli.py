@@ -12,7 +12,7 @@ def readfile(file):
 
 def appendfile(file, data):
     temp = readfile(file)
-    temp.append(data)
+    temp[data["id"]] = data
     with open(file, "w") as f:
         json.dump(temp, f, indent=4)
 
@@ -23,7 +23,7 @@ def addentry(file):
     data["image"] = input("Podaj nazwe pliku z obrazkiem (format \"image/obrazek.png\"): ")
     data["name"] = input("Podaj nazwe napoju: ")
     data["shops"] = input("Podaj sklepy w ktorych mozna kupic napoj, oddzielone przecinkiem i spacja: ")
-    data["score"] = input("Podaj swoja ocene napoju, od 1 do 10: ")
+    data["score"] = int(input("Podaj swoja ocene napoju, od 1 do 10: "))
     verified = input("Podaj status weryfikacji (Y/N): ")
     if(verified == "Y"):
         data["verified"] = True
