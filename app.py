@@ -16,35 +16,36 @@ def main():
 
 @app.route('/archive')
 def archive():
-    if os.path.exists(file) and os.stat(file).st_size > 0:
-        with open(file, "r") as f:
-            data = json.load(f)
-    else:
-        data = []
+    with open(file, "r") as f:
+        data = json.load(f)
+    verified_entries = []
     for entry in data:
-        if entry["verified"] == False:
-            data.remove(entry)
-    return render_template('archive.html', table_data=data)
+        print(f"{type(entry)}: {entry}")
+        if data[entry]["verified"] == True:
+            verified_entries.append(data[entry])
+    print(f"Verified Entries: {verified_entries}")
+    return render_template('archive.html', table_data=verified_entries)
 
-@app.route('/archive/<int:id>')
+@app.route('/archive/<id>')
 def id(id):
     with open(file, "r") as f:
         data = json.load(f)
     print(data)
-    jabol_d = data[id]
-    return render_template('jabol_page.html', jabol_data=jabol_d)
+    return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id)
 
-@app.route("/archive/<int:id>/submit-vote", methods=["POST"])
+@app.route("/archive/<id>/submit-vote", methods=["POST"])
 def submit_vote(id):
+    print("id:", id)
     with open(file, "r") as f:
         database = json.load(f)
-    user_id = request.remote_addr
+    user_id = str(request.remote_addr)
     score = int(request.form["score"])
-    if user_id not in database[id]["votes"]:
-        database[id]["votes"][user_id] = score
-        database[id]["score"] = sum(database[id]["votes"].values()) / len(database[id]["votes"])
+    if user_id not in database[f"{id}"]["votes"]:
+        database[f"{id}"]["votes"].append(user_id)
+        database[f"{id}"]["scores"].append(score)
+        database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
         save_database(database)
-    return render_template("jabol_page.html", jabol_data=database[id])
+    return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id)
 
 if(__name__ == '__main__'):
     app.run(debug=True)
