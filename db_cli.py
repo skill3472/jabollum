@@ -22,7 +22,7 @@ def addentry(file):
     data["name"] = input("Podaj nazwe napoju: ")
     data["shops"] = input("Podaj sklepy w ktorych mozna kupic napoj, oddzielone przecinkiem i spacja: ")
     data["score"] = int(input("Podaj swoja ocene napoju, od 1 do 10: "))
-    data["scores"] = []
+    data["scores"] = [].append(data["score"])
     data["votes"] = []
     verified = input("Podaj status weryfikacji (Y/N): ")
     if(verified == "Y"):
