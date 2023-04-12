@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jabolleum - Archiwum Jaboli</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('submit_suggestion_post') }}" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+        <label for="shops">Shops:</label>
+        <input type="text" name="shops" required>
+        <label for="score">Score:</label>
+        <input type="number" name="score" min="1" max="10" required>
+        <label for="file">Image:</label>
+        <input type="file" name="image" required>
+        <input type=submit value=Upload>
+    </form>
+</body>
+</html>

@@ -3,3 +3,6 @@ docs/
 
 # Database files
 db/
+
+# Flask secret
+secret.txt
