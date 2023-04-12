@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
+from jabol import *
 import json
 import os
 
@@ -15,10 +16,6 @@ app.config['SECRET_KEY'] = open("secret.txt", "r").read()
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def save_database(database):
-    with open(file, "w") as f:
-        json.dump(database, f, indent=4)
 
 @app.route('/')
 def main():
@@ -54,7 +51,7 @@ def submit_vote(id):
         database[f"{id}"]["votes"].append(user_id)
         database[f"{id}"]["scores"].append(score)
         database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
-        save_database(database)
+        save_database(file, database)
     return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id)
 
 @app.route("/submit")
