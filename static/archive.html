@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/style.css">
     <title>Jabolleum - Archiwum Jaboli</title>
 </head>
 <body>
@@ -14,6 +14,7 @@
                 <th></th>
                 <th>Nazwa</th>
                 <th>Sklepy</th>
+                <th>Cena</th>
                 <th>Ocena</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td><img src="{{ url_for('static', filename=row['image']) }}"></td>
 				<td><a href="/archive/{{ loop.index }}">{{ row['name'] }}</a></td>
 				<td>{{ row['shops'] }}</td>
+                <td>{{ row ['price'] }}zł</td>
 				<td>{{ row['score'] }}</td>
 			</tr>
 			{% endfor %}

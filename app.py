@@ -30,7 +30,7 @@ def archive():
         data = json.load(f)
     verified_entries = []
     for entry in data:
-        print(f"{type(entry)}: {entry}")
+        data[entry]["price"] = "{:.2f}".format(data[entry]["price"])
         if data[entry]["verified"] == True:
             verified_entries.append(data[entry])
     print(f"Verified Entries: {verified_entries}")
@@ -80,6 +80,7 @@ def submit_suggestion_post():
         new_entry["image"] = image_path
         new_entry["name"] = request.form["name"]
         new_entry["shops"] = request.form["shops"]
+        new_entry["price"] = float(request.form["price"])
         new_entry["score"] = int(request.form["score"])
         new_entry["scores"] = [new_entry["score"]]
         new_entry["votes"] = []

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
     <title>Jabolleum - Archiwum Jaboli</title>
 </head>
 <body>
@@ -12,8 +13,10 @@
         <input type="text" name="name" required>
         <label for="shops">Shops:</label>
         <input type="text" name="shops" required>
+        <label for="score">Price:</label>
+        <input type="number" name="price" step="0.01" min="1" max="10" required>
         <label for="score">Score:</label>
-        <input type="number" name="score" min="1" max="10" required>
+        <input type="number" name="score" step="1" min="1" max="10" required>
         <label for="file">Image:</label>
         <input type="file" name="image" required>
         <input type=submit value=Upload>
