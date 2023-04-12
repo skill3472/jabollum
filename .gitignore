@@ -6,3 +6,6 @@ db/
 
 # Flask secret
 secret.txt
+
+# Pychache
+__pycache__/
