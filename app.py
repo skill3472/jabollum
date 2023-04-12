@@ -83,7 +83,7 @@ def submit_suggestion_post():
         new_entry["votes"] = []
         new_entry["verified"] = False
         database.update(new_entry)
-        save_database(database)
+        save_database(file, database)
         return redirect(url_for("submit_suggestion_post"))
     return render_template("submit.html", submitted=True)
 
