@@ -10,3 +10,6 @@ secret.txt
 # Pychache
 __pycache__/
 *.py[cod]
+
+# PyCharm
+.idea/
