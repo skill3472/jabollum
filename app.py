@@ -17,9 +17,11 @@ app.config['SECRET_KEY'] = open("secret.txt", "r").read()
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/')
 def main():
     return app.send_static_file('index.html')
+
 
 @app.route('/archive')
 def archive():
@@ -28,10 +30,11 @@ def archive():
     verified_entries = []
     for entry in data:
         data[entry]["price"] = "{:.2f}".format(data[entry]["price"])
-        if data[entry]["verified"] == True:
+        if data[entry]["verified"]:
             verified_entries.append(data[entry])
     print(f"Verified Entries: {verified_entries}")
     return render_template('archive.html', table_data=verified_entries)
+
 
 @app.route('/archive/<id>')
 def id(id):
@@ -39,6 +42,7 @@ def id(id):
         data = json.load(f)
     print(data)
     return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id)
+
 
 @app.route("/archive/<id>/submit-vote", methods=["POST"])
 def submit_vote(id):
@@ -54,9 +58,11 @@ def submit_vote(id):
         save_database(file, database)
     return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id)
 
+
 @app.route("/submit")
 def submit_suggestion():
     return app.send_static_file('submit.html')
+
 
 @app.route("/submit/submit-suggestion", methods=["GET", "POST"])
 def submit_suggestion_post():
@@ -87,5 +93,6 @@ def submit_suggestion_post():
         return redirect(url_for("submit_suggestion_post"))
     return render_template("submit.html", submitted=True)
 
-if(__name__ == '__main__'):
+
+if __name__ == '__main__':
     app.run(debug=True)
