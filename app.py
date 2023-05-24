@@ -90,36 +90,5 @@ def submit_suggestion():
     else:
         return "Invalid method! Use POST or GET on this page."
 
-
-# @app.route("/submit/submit-suggestion", methods=["GET", "POST"])
-# def submit_suggestion_post():
-#     with open(file, "r") as f:
-#         database = json.load(f)
-#     new_entry = {}
-#     if request.method == "POST":
-#         image = request.files.get("image")
-#         if not image:
-#             flash('No file part')
-#             return redirect("/submit")
-#         if not allowed_file(image.filename):
-#             flash("Invalid file type")
-#             return redirect("/submit")
-#         filename = secure_filename(image.filename)
-#         image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         image.save(image_path)
-#         new_entry["image"] = image_path
-#         new_entry["name"] = request.form["name"]
-#         new_entry["shops"] = request.form["shops"]
-#         new_entry["price"] = float(request.form["price"])
-#         new_entry["score"] = int(request.form["score"])
-#         new_entry["scores"] = [new_entry["score"]]
-#         new_entry["votes"] = []
-#         new_entry["verified"] = False
-#         database.update(new_entry)
-#         save_database(file, database)
-#         return redirect(url_for("submit_suggestion_post"))
-#     return render_template("submit.html", submitted=True)
-
-
 if __name__ == '__main__':
     app.run(debug=True)
