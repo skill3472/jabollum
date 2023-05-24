@@ -83,7 +83,8 @@ def submit_suggestion():
         new_entry["price"] = float(request.form["price"])
         new_entry["score"] = int(request.form["score"])
         new_entry["scores"] = [new_entry["score"]]
-        new_entry["votes"] = []
+        new_entry["votes"] = [] # TO ADD THE IP LATER
+        new_entry["description"] = request.form["description"]
         new_entry["verified"] = False
         appendfile(file, new_entry)
         return render_template("submit.html", submitted=True)

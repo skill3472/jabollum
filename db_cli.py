@@ -13,6 +13,7 @@ def addentry(file):
     data["price"] = float(input("Podaj cene napoju w PLN: "))
     data["scores"] = [].append(data["score"])
     data["votes"] = []
+    data["description"] = input("Podaj opis jabola: \n")
     verified = input("Podaj status weryfikacji (Y/N): ")
     if(verified == "Y"):
         data["verified"] = True
