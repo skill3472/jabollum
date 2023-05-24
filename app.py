@@ -64,9 +64,8 @@ def submit_suggestion():
     if request.method == "GET":
         return app.send_static_file('submit.html')
     elif request.method == "POST":
-        with open(file, "r") as f:
-            database = json.load(f)
         new_entry = {}
+        user_id = str(request.remote_addr)
         image = request.files.get("image")
         if not image:
             flash('No file part')
@@ -83,7 +82,7 @@ def submit_suggestion():
         new_entry["price"] = float(request.form["price"])
         new_entry["score"] = int(request.form["score"])
         new_entry["scores"] = [new_entry["score"]]
-        new_entry["votes"] = [] # TO ADD THE IP LATER
+        new_entry["votes"] = [user_id]
         new_entry["description"] = request.form["description"]
         new_entry["verified"] = False
         appendfile(file, new_entry)
