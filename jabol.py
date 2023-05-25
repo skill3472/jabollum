@@ -27,3 +27,16 @@ def removeentry(file, id):
 def save_database(file, database):
     with open(file, "w") as f:
         json.dump(database, f, indent=4)
+
+def edit_database(entry_id, key, value, file):
+    db = readfile(file)
+    db[f"{entry_id}"][f"{key}"] = value
+    save_database(file, db)
+
+def countUnverified(file):
+    db = readfile(file)
+    count = 0
+    for i in range(1, len(db)+1):
+        if db[f"{i}"]["verified"] == False:
+            count += 1
+    return count
