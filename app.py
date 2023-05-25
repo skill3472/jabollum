@@ -64,6 +64,7 @@ def submit_suggestion():
     if request.method == "GET":
         return app.send_static_file('submit.html')
     elif request.method == "POST":
+        db = readfile(file)
         new_entry = {}
         user_id = str(request.remote_addr)
         image = request.files.get("image")
@@ -74,8 +75,10 @@ def submit_suggestion():
             flash("Invalid file type")
             return redirect("/submit")
         filename = secure_filename(image.filename)
-        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image.save(image_path)
+        old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], str(len(db) + 1) + filename)
+        image.save(old_image_path)
+        os.rename(old_image_path, image_path)
         new_entry["image"] = image_path
         new_entry["name"] = request.form["name"]
         new_entry["shops"] = request.form["shops"]
