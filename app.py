@@ -5,7 +5,7 @@ import json
 import os
 
 file = "db/db.json"
-UPLOAD_FOLDER = 'static/images/unverified/'
+UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
 
 app = Flask(__name__, template_folder='static')
@@ -75,11 +75,12 @@ def submit_suggestion():
             flash("Invalid file type")
             return redirect("/submit")
         filename = secure_filename(image.filename)
+        new_filename = str(len(db) + 1) + filename
         old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image_path = os.path.join(app.config['UPLOAD_FOLDER'], str(len(db) + 1) + filename)
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
         image.save(old_image_path)
         os.rename(old_image_path, image_path)
-        new_entry["image"] = image_path
+        new_entry["image"] = f'images/{new_filename}'
         new_entry["name"] = request.form["name"]
         new_entry["shops"] = request.form["shops"]
         new_entry["price"] = float(request.form["price"])
