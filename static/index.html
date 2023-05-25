@@ -1,35 +1,13 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
-    <title>Jabolleum - Archiwum Jaboli</title>
-</head>
-<body>
-    <div class="logo-banner">
-        <img src="static/media/logo.png">
-    </div>
-    <div class="content">
-        <div class="info">
-            <p>
-                Witaj na stronie Jabollum! Nasza baza danych to źródło informacji o polskich jabolach, czyli tanich winach, które cieszą się popularnością wśród wielu miłośników trunków. <br>
-
-                Projekt Jabollum powstał dzięki wielkiego zamiłowania do jaboli Maksa "Skilla" Tyma, oraz kilku jego znajomych. Naszym celem jest zachęcanie ludzi do odkrywania i degustowania różnych rodzajów jaboli, nie tylko jabłkowych, ale również innych smaków, które są dostępne w przystępnych cenach w Polsce. <br>
-  
-                Na naszej stronie znajdziesz informacje na temat różnych jaboli, w tym ich smaków, aromatów i historii. Możesz przeglądać i wyszukiwać jabole według oceny, ceny i innych kryteriów. <br>
-
-                Co więcej, jako użytkownik możesz dodać własny jabol do naszej bazy danych, dzięki czemu inni miłośnicy wina będą mieli szansę spróbować i podzielić się swoją opinią na temat Twojego ulubionego trunku. <br>
-
-                Nasza strona jest open source, co oznacza, że kod jest dostępny publicznie, a każdy może pomóc w jego rozwijaniu. Jesteśmy zawsze otwarci na sugestie i uwagi, abyśmy mogli lepiej spełnić oczekiwania naszych użytkowników. <br>
-            </p>
-        </div>
-        <div class="menu-bar">
-            <a href="/"><button class="menu-button"><img src="static/media/info-button.png"></button></a><br>
-            <a href="/archive"><button class="menu-button"><img src="static/media/archive-button.png"></button></a><br>
-            <a href="/submit"><button class="menu-button"><img src="static/media/submit-button.png"></button></a><br>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Strona główna{% endblock %}
+{% block content %}
+<div class="info">
+    <p>
+        Witaj na stronie Jabollum! Nasza baza danych to źródło informacji o polskich jabolach, czyli tanich winach, które cieszą się popularnością wśród wielu miłośników trunków. <br>
+        Projekt Jabollum powstał dzięki wielkiego zamiłowania do jaboli Maksa "Skilla" Tyma, oraz kilku jego znajomych. Naszym celem jest zachęcanie ludzi do odkrywania i degustowania różnych rodzajów jaboli, nie tylko jabłkowych, ale również innych smaków, które są dostępne w przystępnych cenach w Polsce. <br>
+        Na naszej stronie znajdziesz informacje na temat różnych jaboli, w tym ich smaków, aromatów i historii. Możesz przeglądać i wyszukiwać jabole według oceny, ceny i innych kryteriów. <br>
+        Co więcej, jako użytkownik możesz dodać własny jabol do naszej bazy danych, dzięki czemu inni miłośnicy wina będą mieli szansę spróbować i podzielić się swoją opinią na temat Twojego ulubionego trunku. <br>
+        Nasza strona jest open source, co oznacza, że kod jest dostępny publicznie, a każdy może pomóc w jego rozwijaniu. Jesteśmy zawsze otwarci na sugestie i uwagi, abyśmy mogli lepiej spełnić oczekiwania naszych użytkowników. <br>
+    </p>
+</div>
+{% endblock %}

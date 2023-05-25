@@ -20,7 +20,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def main():
-    return app.send_static_file('index.html')
+    return render_template('index.html')
 
 
 @app.route('/archive')
@@ -62,7 +62,7 @@ def submit_vote(id):
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
     if request.method == "GET":
-        return app.send_static_file('submit.html')
+        return render_template('submit.html', submitted=False)
     elif request.method == "POST":
         db = readfile(file)
         new_entry = {}

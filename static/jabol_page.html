@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
-    <title>Jabolleum - Archiwum Jaboli</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Szczegóły{% endblock %}
+{% block content %}
     <img src="{{ url_for('static', filename=jabol_data['image']) }}">
     <h1>{{ jabol_data['name'] }}</h1>
     <p>{{ jabol_data['shops'] }}</p>
@@ -19,6 +12,4 @@
         <input type="number" name="score" min="1" max="10" required>
         <button type="submit">Submit</button>
     </form>
-    
-</body>
-</html>
+{% endblock %}
