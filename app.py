@@ -64,22 +64,6 @@ def id(id):
     else:
         return "Invalid method!"
 
-
-@app.route("/archive/<id>/submit-vote", methods=["POST"])
-def submit_vote(id):
-    print("id:", id)
-    with open(file, "r") as f:
-        database = json.load(f)
-    user_id = str(request.remote_addr)
-    score = int(request.form["score"])
-    if user_id not in database[f"{id}"]["votes"]:
-        database[f"{id}"]["votes"].append(user_id)
-        database[f"{id}"]["scores"].append(score)
-        database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
-        save_database(file, database)
-    return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id) # DO ZMIANY NA REDIRECT
-
-
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
     if request.method == "GET":
@@ -113,7 +97,8 @@ def submit_suggestion():
         new_entry["description"] = request.form["description"]
         new_entry["verified"] = False
         appendfile(file, new_entry)
-        return render_template("submit.html", submitted=True)
+        flash("Wyslano sugestie!")
+        return redirect("/submit")
     else:
         return "Invalid method! Use POST or GET on this page."
 

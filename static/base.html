@@ -40,5 +40,14 @@
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+    <div class="flash">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for msg in messages %}
+            <p>{{msg}}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
 </body>
 </html>
