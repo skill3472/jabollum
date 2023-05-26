@@ -11,8 +11,37 @@
     <p>Objętość (L): {{ jabol_data['vol'] }}</p>
 
     <form method="POST" action="/archive/{{ id }}/submit-vote">
-        <label for="score">Score:</label>
+        <label for="score">Ocena:</label>
         <input type="number" name="score" min="1" max="10" required>
-        <button type="submit">Submit</button>
+        <button type="submit">Wyślij</button>
     </form>
+
+    <p>Dodaj recencje:</p>
+    <form method="POST" action="#">
+        <label for="name">Nick/Imie:</label>
+        <input type="text" name="name" required>
+        <label for="review">Recenzja:</label>
+        <input type="textarea" name="review" required>
+        <button type="submit">Prześlij</button>
+    </form>
+
+    <table id="reviews">
+        <thead>
+            <tr>
+                <th>Nick</th>
+                <th>Recencja</th>
+                <th>Data opublikowania</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in review_data %}
+            <tr>
+                <td>{{ review['name'] }}</td>
+                <td>{{ review['review'] }}</td>
+                <td>{{ review['date'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

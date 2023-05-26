@@ -13,13 +13,13 @@
         </thead>
         <tbody>
             {% for row in table_data %}
-			<tr>
-                <td><img src="{{ url_for('static', filename=row['image']) }}"></td>
-				<td><a href="/archive/{{ loop.index }}">{{ row['name'] }}</a></td>
-				<td>{{ row['shops'] }}</td>
-                <td>{{ row ['price'] }}zł</td>
-				<td>{{ row['score'] }}</td>
-			</tr>
+			    <tr>
+            <td><img src="{{ url_for('static', filename=row['image']) }}"></td>
+				    <td><a href="/archive/{{ loop.index }}">{{ row['name'] }}</a></td>
+				    <td>{{ row['shops'] }}</td>
+            <td>{{ row ['price'] }}zł</td>
+				    <td>{{ row['score'] }}</td>
+			  </tr>
 			{% endfor %}
         </tbody>
     </table>

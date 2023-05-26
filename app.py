@@ -3,8 +3,10 @@ from werkzeug.utils import secure_filename
 from jabol import *
 import json
 import os
+from datetime import datetime
 
 file = "db/db.json"
+review_file = "db/reviews.json"
 UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
 
@@ -36,12 +38,31 @@ def archive():
     return render_template('archive.html', table_data=verified_entries)
 
 
-@app.route('/archive/<id>')
+@app.route('/archive/<id>', methods=["GET", "POST"])
 def id(id):
-    with open(file, "r") as f:
-        data = json.load(f)
-    print(data)
-    return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id)
+    if request.method == "GET":
+        with open(file, "r") as f:
+            data = json.load(f)
+        with open(review_file, "r") as f:
+            review_data_unfiltered = json.load(f)
+        review_data = []
+        for i in review_data_unfiltered:
+            if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
+                review_data.append(review_data_unfiltered[i])
+        return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data)
+    elif request.method == "POST":
+        new_entry = {}
+        new_entry["drink_id"] = id
+        new_entry["name"] = request.form["name"]
+        new_entry["review"] = request.form["review"]
+        new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
+        new_entry["uid"] = str(request.remote_addr)
+        new_entry["verified"] = False
+        appendfile(review_file, new_entry)
+        flash("Review sent, waiting for verification!")
+        return redirect(f"/archive/{id}")
+    else:
+        return "Invalid method!"
 
 
 @app.route("/archive/<id>/submit-vote", methods=["POST"])
@@ -56,7 +77,7 @@ def submit_vote(id):
         database[f"{id}"]["scores"].append(score)
         database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
         save_database(file, database)
-    return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id)
+    return render_template("jabol_page.html", jabol_data=database[f"{id}"], id=id) # DO ZMIANY NA REDIRECT
 
 
 @app.route("/submit", methods=["POST", "GET"])
