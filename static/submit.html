@@ -3,17 +3,21 @@
 {% block content %}
     <form method="POST" action="#" enctype="multipart/form-data">
         <label for="name">Name:</label>
-        <input type="text" name="name" required>
+        <input type="text" name="name" required><br>
         <label for="shops">Shops:</label>
-        <input type="text" name="shops" required>
+        <input type="text" name="shops" required><br>
         <label for="score">Price:</label>
-        <input type="number" name="price" step="0.01" min="1" max="25" required>
+        <input type="number" name="price" step="0.01" min="1" max="25" required><br>
+        <label for="ac">Alcohol content:</label>
+        <input type="number" name="ac" step="0.1" min="1" max="40" required><br>
+        <label for="vol">Volume:</label>
+        <input type="number" name="vol" step="0.01" min="0.1" max="50" required><br>
         <label for="score">Score:</label>
-        <input type="number" name="score" step="1" min="1" max="10" required>
+        <input type="number" name="score" step="1" min="1" max="10" required><br>
         <label for="shops">Description:</label>
-        <input type="text" name="description">
-        <label for="file">Image:</label>
-        <input type="file" name="image" required>
-        <input type=submit value=Upload>
+        <input type="text" name="description"><br>
+        <label for="image">Image:</label>
+        <input type="file" name="image" required><br>
+        <input type=submit value=Prześlij>
     </form>
 {% endblock %}

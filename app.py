@@ -84,6 +84,8 @@ def submit_suggestion():
         new_entry["name"] = request.form["name"]
         new_entry["shops"] = request.form["shops"]
         new_entry["price"] = float(request.form["price"])
+        new_entry["ac"] = float(request.form["ac"])
+        new_entry["vol"] = float(request.form["vol"])
         new_entry["score"] = int(request.form["score"])
         new_entry["scores"] = [new_entry["score"]]
         new_entry["votes"] = [user_id]

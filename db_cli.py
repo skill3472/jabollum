@@ -11,14 +11,18 @@ def addentry(file):
     data["shops"] = input("Podaj sklepy w ktorych mozna kupic napoj, oddzielone przecinkiem i spacja: ")
     data["score"] = int(input("Podaj swoja ocene napoju, od 1 do 10: "))
     data["price"] = float(input("Podaj cene napoju w PLN: "))
-    data["scores"] = [].append(data["score"])
-    data["votes"] = []
+    data["ac"] = float(input("Podaj moc napoju w %: "))
+    data["vol"] = float(input("Podaj objetosc napoju w L: "))
+    data["scores"] = [data["score"]]
+    data["votes"] = ["127.0.0.1"]
     data["description"] = input("Podaj opis jabola: \n")
-    verified = input("Podaj status weryfikacji (Y/N): ")
-    if(verified == "Y"):
+    verified = input("Podaj status weryfikacji (Y/N): ").lower()
+    if verified == "y":
         data["verified"] = True
-    else:
+    elif verified == "n":
         data["verified"] = False
+    else:
+        return "Wartosc weryfikacji niepoprawna!"
     appendfile(file, data)
     return "Dodano wpis!"
 
