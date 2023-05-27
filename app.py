@@ -42,29 +42,32 @@ def contact():
 
 @app.route('/archive/<id>', methods=["GET", "POST"])
 def id(id):
-    if request.method == "GET":
-        with open(file, "r") as f:
-            data = json.load(f)
-        with open(review_file, "r") as f:
-            review_data_unfiltered = json.load(f)
-        review_data = []
-        for i in review_data_unfiltered:
-            if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
-                review_data.append(review_data_unfiltered[i])
-        return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data)
-    elif request.method == "POST":
-        new_entry = {}
-        new_entry["drink_id"] = id
-        new_entry["name"] = request.form["name"]
-        new_entry["review"] = request.form["review"]
-        new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
-        new_entry["uid"] = str(request.remote_addr)
-        new_entry["verified"] = False
-        appendfile(review_file, new_entry)
-        flash("Recenzja wysłana, czekaj na weryfikację!")
-        return redirect(f"/archive/{id}")
+    with open(file, "r") as f:
+        data = json.load(f)
+    if id in data.keys():
+        if request.method == "GET":
+            with open(review_file, "r") as f:
+                review_data_unfiltered = json.load(f)
+            review_data = []
+            for i in review_data_unfiltered:
+                if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
+                    review_data.append(review_data_unfiltered[i])
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data)
+        elif request.method == "POST":
+            new_entry = {}
+            new_entry["drink_id"] = id
+            new_entry["name"] = request.form["name"]
+            new_entry["review"] = request.form["review"]
+            new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
+            new_entry["uid"] = str(request.remote_addr)
+            new_entry["verified"] = False
+            appendfile(review_file, new_entry)
+            flash("Recenzja wysłana, czekaj na weryfikację!")
+            return redirect(f"/archive/{id}")
+        else:
+            return "Nieprawidłowa metoda! Użyj POST, albo GET."
     else:
-        return "Invalid method!"
+        return "Nieprawidłowe id!"
 
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
