@@ -3,6 +3,7 @@ import os
 from jabol import *
 
 file = "db/db.json"
+reviews_file = "db/reviews.json"
 
 def addentry(file):
     data = {}
@@ -29,8 +30,8 @@ def addentry(file):
 def verifyEntries(file):
     db = readfile(file)
     toVerify = []
-    for i in range(1, len(db)+1):
-        if db[f"{i}"]["verified"] == False:
+    for i in range(1, int(list(db)[-1])+1):
+        if f"{i}" in db.keys() and db[f"{i}"]["verified"] == False:
             toVerify.append([i, db[f"{i}"]])
     for i in toVerify:
         print(i)
@@ -45,8 +46,29 @@ def verifyEntries(file):
         else:
             print("To nie jest poprawna wartosc!")
 
+def verifyReviews(file):
+    db = readfile(file)
+    toVerify = []
+    for i in range(1, int(list(db)[-1])+1):
+        if f"{i}" in db.keys() and db[f"{i}"]["verified"] == False:
+            toVerify.append([i, db[f"{i}"]])
+    for i in toVerify:
+        print(i[1]["name"])
+        print(i[1]["review"])
+        print("Czy chcesz zweryfikowac ta recenzje? (Y/N)")
+        x = input().lower()
+        if x == "y":
+            print(i[0], "zweryfikowano")
+            edit_database(i[0], "verified", True, file)
+        elif x == "n":
+            print(i[0], "odrzucono")
+            removeentry(file, i[0])
+        else:
+            print("To nie jest poprawna wartosc!")
+
 def main():
     x = countUnverified(file)
+    y = countUnverified(reviews_file)
     print('''
    mmm         #             ""#    ""#
      #   mmm   #mmm    mmm     #      #    m   m  mmmmm
@@ -55,8 +77,8 @@ def main():
  "mmm"  "mm"#  ##m#"  "#m#"    "mm    "mm  "mm"#  # # #
     ''')
     print("Witaj w programie do zarzadzania bazą danych Jabollum!")
-    print(f"Masz {x} wpisow do zweryfikowania.")
-    choice = input("Wybierz opcje: \n 1. Dodaj nowy wpis \n 2. Wyswietl baze danych\n 3. Usun wpis\n 4. Weryfikuj wpisy \n 5. Wyjdz\n")
+    print(f"Masz {x} wpisow do zweryfikowania, oraz {y} recenzji do zweryfikowania.")
+    choice = input("Wybierz opcje: \n 1. Dodaj nowy wpis \n 2. Wyswietl baze danych\n 3. Usun wpis\n 4. Weryfikuj wpisy\n 5. Weryfikuj recenzje\n 6. Wyjdz\n")
     match choice:
         case "1":
             print(addentry(file))
@@ -72,6 +94,9 @@ def main():
             verifyEntries(file)
             main()
         case "5":
+            verifyReviews(reviews_file)
+            main()
+        case "6":
             exit()
 
 if __name__ == "__main__":

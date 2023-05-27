@@ -36,7 +36,8 @@ def edit_database(entry_id, key, value, file):
 def countUnverified(file):
     db = readfile(file)
     count = 0
-    for i in range(1, len(db)+1):
-        if f"{i}" in db.keys() and db[f"{i}"]["verified"] == False:
+    for i in range(1, int(list(db)[-1])+1):
+        key = db.get(f"{i}")
+        if key != None and key["verified"] == False:
             count += 1
     return count
