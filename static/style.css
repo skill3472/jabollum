@@ -50,3 +50,8 @@ body {
 .menu-button:active {
     background-color: rgb(20, 20, 20);
 }
+
+.thumb {
+    width: 20%;
+    height: 20%;
+}
