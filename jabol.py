@@ -13,7 +13,10 @@ def printfile(file):
 
 def appendfile(file, data):
     temp = readfile(file)
-    entry_id = str(int(list(temp)[-1]) + 1) # syf totalny, ale nie ruszac, bo dziala
+    if temp:
+        entry_id = str(int(list(temp)[-1]) + 1) # syf totalny, ale nie ruszac, bo dziala
+    else:
+        entry_id = "1"
     temp[entry_id] = data
     with open(file, "w") as f:
         json.dump(temp, f, indent=4)
