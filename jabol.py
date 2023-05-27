@@ -13,7 +13,7 @@ def printfile(file):
 
 def appendfile(file, data):
     temp = readfile(file)
-    entry_id = str(len(temp) + 1)
+    entry_id = str(int(list(temp)[-1]) + 1) # syf totalny, ale nie ruszac, bo dziala
     temp[entry_id] = data
     with open(file, "w") as f:
         json.dump(temp, f, indent=4)
@@ -37,6 +37,6 @@ def countUnverified(file):
     db = readfile(file)
     count = 0
     for i in range(1, len(db)+1):
-        if db[f"{i}"]["verified"] == False:
+        if f"{i}" in db.keys() and db[f"{i}"]["verified"] == False:
             count += 1
     return count
