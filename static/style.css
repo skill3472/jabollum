@@ -33,3 +33,9 @@ body {
     width: 20%;
     height: 20%;
 }
+
+.contact {
+    text-align: center;
+    padding-top: 3%;
+    color: bisque;
+}

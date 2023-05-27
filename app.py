@@ -36,6 +36,9 @@ def archive():
             verified_entries.append(data[entry])
     return render_template('archive.html', table_data=verified_entries)
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 @app.route('/archive/<id>', methods=["GET", "POST"])
 def id(id):
