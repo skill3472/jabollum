@@ -2,21 +2,21 @@
 {% block title %}Dodaj{% endblock %}
 {% block content %}
     <form method="POST" action="#" enctype="multipart/form-data">
-        <label for="name">Name:</label>
+        <label for="name">Nazwa:</label>
         <input type="text" name="name" required><br>
-        <label for="shops">Shops:</label>
+        <label for="shops">Sklepy:</label>
         <input type="text" name="shops" required><br>
-        <label for="score">Price:</label>
+        <label for="score">Ostatnia znana cena:</label>
         <input type="number" name="price" step="0.01" min="1" max="25" required><br>
-        <label for="ac">Alcohol content:</label>
+        <label for="ac">Zawartość alkoholu:</label>
         <input type="number" name="ac" step="0.1" min="1" max="40" required><br>
-        <label for="vol">Volume:</label>
+        <label for="vol">Objętość:</label>
         <input type="number" name="vol" step="0.01" min="0.1" max="50" required><br>
-        <label for="score">Score:</label>
+        <label for="score">Ocena:</label>
         <input type="number" name="score" step="1" min="1" max="10" required><br>
-        <label for="shops">Description:</label>
+        <label for="shops">Opis:</label>
         <input type="text" name="description"><br>
-        <label for="image">Image:</label>
+        <label for="image">Zdjęcie:</label>
         <input type="file" name="image" required><br>
         <input type=submit value=Prześlij>
     </form>

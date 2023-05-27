@@ -34,7 +34,6 @@ def archive():
         data[entry]["price"] = "{:.2f}".format(data[entry]["price"])
         if data[entry]["verified"]:
             verified_entries.append(data[entry])
-    print(f"Verified Entries: {verified_entries}")
     return render_template('archive.html', table_data=verified_entries)
 
 
@@ -59,7 +58,7 @@ def id(id):
         new_entry["uid"] = str(request.remote_addr)
         new_entry["verified"] = False
         appendfile(review_file, new_entry)
-        flash("Review sent, waiting for verification!")
+        flash("Recenzja wysłana, czekaj na weryfikację!")
         return redirect(f"/archive/{id}")
     else:
         return "Invalid method!"
@@ -74,10 +73,10 @@ def submit_suggestion():
         user_id = str(request.remote_addr)
         image = request.files.get("image")
         if not image:
-            flash('No file part')
+            flash('Brak pliku!')
             return redirect("/submit")
         if not allowed_file(image.filename):
-            flash("Invalid file type")
+            flash("Nieprawidłowy typ pliku!")
             return redirect("/submit")
         filename = secure_filename(image.filename)
         new_filename = str(len(db) + 1) + filename
@@ -100,7 +99,7 @@ def submit_suggestion():
         flash("Wyslano sugestie!")
         return redirect("/submit")
     else:
-        return "Invalid method! Use POST or GET on this page."
+        return "Nieprawidłowa metoda! Użyj POST, albo GET."
 
 if __name__ == '__main__':
     app.run(debug=True)
