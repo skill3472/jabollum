@@ -1,5 +1,17 @@
 h1 {
-    color: #C4C4C4;
+    color: #C4C4C4 !important;
+}
+
+h2 {
+    color: #C4C4C4 !important;
+}
+
+p{
+    color: #b1b1b1 !important;
+}
+
+label {
+    color: #b1b1b1 !important;
 }
 
 body {

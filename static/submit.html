@@ -1,23 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Dodaj{% endblock %}
 {% block content %}
-    <form method="POST" action="#" enctype="multipart/form-data">
-        <label for="name">Nazwa:</label>
-        <input type="text" name="name" required><br>
-        <label for="shops">Sklepy:</label>
-        <input type="text" name="shops" required><br>
-        <label for="score">Ostatnia znana cena:</label>
-        <input type="number" name="price" step="0.01" min="1" max="25" required><br>
-        <label for="ac">Zawartość alkoholu:</label>
-        <input type="number" name="ac" step="0.1" min="1" max="40" required><br>
-        <label for="vol">Objętość:</label>
-        <input type="number" name="vol" step="0.01" min="0.1" max="50" required><br>
-        <label for="score">Ocena:</label>
-        <input type="number" name="score" step="1" min="1" max="10" required><br>
-        <label for="shops">Opis:</label>
-        <input type="text" name="description"><br>
-        <label for="image">Zdjęcie:</label>
-        <input type="file" name="image" required><br>
-        <input type=submit value=Prześlij>
-    </form>
+<div class="container-lg"  style="padding-top: 5%;">
+    <div class="text-center">
+        <h2>Prześlij propozycję jabola</h2>
+        <p class="lead">Wypełnij ten formularz, aby przesłać propozycje jabola do dodania.</p>
+    </div>
+
+    <div class="row justify-content-center my-5">
+        <div class="col-lg-6">
+            <form method="POST" action="#" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nazwa:</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shops" class="form-label">Sklepy:</label>
+                    <input type="text" name="shops" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="score" class="form-label">Ostatnia znana cena:</label>
+                    <input type="number" name="price" step="0.01" min="1" max="25" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ac" class="form-label">Zawartość alkoholu:</label>
+                    <input type="number" name="ac" step="0.1" min="1" max="40" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="vol" class="form-label">Objętość:</label>
+                    <input type="number" name="vol" step="0.01" min="0.1" max="50" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="score" class="form-label">Ocena:</label>
+                    <input type="number" name="score" step="1" min="1" max="10" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Opis:</label>
+                    <textarea type="text" name="description" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Zdjęcie:</label>
+                    <input type="file" name="image" class="form-control" required><br>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type=submit>Prześlij</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
