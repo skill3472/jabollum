@@ -7,8 +7,8 @@
     <p>Ocena: {{ jabol_data['score'] }}</p>
     <p>Opis:</p>
     <p>{{ jabol_data['description'] }}</p>
-    <p>Zawartość alkoholu (%): {{ jabol_data['ac'] }}</p>
-    <p>Objętość (L): {{ jabol_data['vol'] }}</p>
+    <p>Zawartość alkoholu: {{ jabol_data['ac'] }}%</p>
+    <p>Objętość: {{ jabol_data['vol'] }}L</p>
 
     <form method="POST" action="/archive/{{ id }}/submit-vote">
         <label for="score">Ocena:</label>
