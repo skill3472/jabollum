@@ -56,7 +56,7 @@ def id(id):
             for i in review_data_unfiltered:
                 if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
                     review_data.append(review_data_unfiltered[i])
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data)
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True)
         elif request.method == "POST":
             new_entry = {}
             new_entry["drink_id"] = id
