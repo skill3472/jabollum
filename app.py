@@ -103,7 +103,10 @@ def submit_suggestion():
         new_entry["score"] = int(request.form["score"])
         new_entry["scores"] = [new_entry["score"]]
         new_entry["votes"] = [user_id]
-        new_entry["description"] = request.form["description"]
+        if len(request.form["description"]) > 0:
+            new_entry["description"] = request.form["description"]
+        else:
+            new_entry["description"] = "Brak opisu."
         new_entry["verified"] = False
         appendfile(file, new_entry)
         flash("Wyslano sugestie!")
