@@ -1,42 +1,50 @@
 {% extends "base.html" %}
 {% block title %}Szczegóły{% endblock %}
 {% block content %}
-    <img src="{{ url_for('static', filename=jabol_data['image']) }}">
-    <h1>{{ jabol_data['name'] }}</h1>
-    <p>Sklepy: {{ jabol_data['shops'] }}</p>
-    <p>Ocena: {{ jabol_data['score'] }}</p>
-    <p>Opis:</p>
-    <p>{{ jabol_data['description'] }}</p>
-    <p>Zawartość alkoholu: {{ jabol_data['ac'] }}%</p>
-    <p>Objętość: {{ jabol_data['vol'] }}L</p>
+    <div class="jabol-info" style="text-align: center; padding-top: 3%;">
+        <img src="{{ url_for('static', filename=jabol_data['image']) }}">
+        <h1>{{ jabol_data['name'] }}</h1>
+        <p>Sklepy: {{ jabol_data['shops'] }}</p>
+        <p>Ocena: {{ jabol_data['score'] }}</p>
+        <form method="POST" action="/archive/{{ id }}/submit-vote">
+            <label for="score">Twoja ocena:</label>
+            <input type="number" name="score" min="1" max="10" size="2" required>
+            <button type="submit" class="btn btn-primary">Wyślij</button>
+        </form>
+        <p>Opis:</p>
+        <p>{{ jabol_data['description'] }}</p>
+        <p>Zawartość alkoholu: {{ jabol_data['ac'] }}%</p>
+        <p>Objętość: {{ jabol_data['vol'] }}L</p>
+    </div>
 
-    <form method="POST" action="/archive/{{ id }}/submit-vote">
-        <label for="score">Ocena:</label>
-        <input type="number" name="score" min="1" max="10" required>
-        <button type="submit">Wyślij</button>
-    </form>
 
-    <p>Dodaj recencje:</p>
-    <form method="POST" action="#">
-        <label for="name">Nick/Imie:</label>
-        <input type="text" name="name" required>
-        <label for="review">Recenzja:</label>
-        <input type="textarea" name="review" required>
-        <button type="submit">Prześlij</button>
-    </form>
+        <h2>Dodaj swoją recenzję:</h2>
+        <form method="POST" action="#">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="name" class="form-control" placeholder="Nick/Imię" required>
+                </div>
+                <div class="col">
+                    <textarea name="review" class="form-control" placeholder="Twoja recenzja..." required></textarea>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Prześlij</button>
+                </div>
+            </div>
+        </form>
 
-    <table id="reviews">
+    <table id="reviews" class="table table-striped table-dark" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Nick</th>
-                <th>Recencja</th>
-                <th>Data opublikowania</th>
+                <th scope="col">Nick</th>
+                <th scope="col">Recencja</th>
+                <th scope="col">Data opublikowania</th>
             </tr>
         </thead>
         <tbody>
             {% for review in review_data %}
             <tr>
-                <td>{{ review['name'] }}</td>
+                <td scope="row">{{ review['name'] }}</td>
                 <td>{{ review['review'] }}</td>
                 <td>{{ review['date'] }}</td>
             </tr>
