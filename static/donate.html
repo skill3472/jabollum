@@ -2,14 +2,18 @@
 {% block title %}Wesprzyj nas!{% endblock %}
 {% block content %}
 <div class="info">
-    <p>
-        Jeśli chcesz wesprzeć nasz projekt, możesz to zrobić tutaj. Dotacje bardzo pomagają w rozwoju serwisu i jego utrzymaniu.
-    </p>
-    <iframe id='kofiframe' src='https://ko-fi.com/jabollum/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='712' title='jabollum'></iframe>
-    <p>
-        Jeśli wolisz płacić w Monero (XMR), możesz to zrobić przelewając dowolną ilość na adres poniżej :>
-    </p>
-    <p>8818mNyg9SpGDvzqyDJB4CY6WhE2CscL4LtpzjRYaLHJGPUxzjBX9Tf5ZHLUy7btgGfWgvn1t6uXLFp7JkRVdzv6BBDwRZj</p>
-    <img src="static/media/xmr_qr.png">
+    <div class="fiat">
+        <p>
+            Jeśli chcesz wesprzeć nasz projekt, możesz to zrobić tutaj. Dotacje bardzo pomagają w rozwoju serwisu i jego utrzymaniu.
+        </p>
+        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Wesprzyj nas!', '#e0288a', 'E1E2LOGO7');kofiwidget2.draw();</script> 
+    </div>
+    <div class="xmr" style="margin-top: 5%;">
+        <p>
+            Jeśli wolisz płacić w Monero (XMR), możesz to zrobić przelewając dowolną ilość na adres poniżej :>
+        </p>
+        <p>8818mNyg9SpGDvzqyDJB4CY6WhE2CscL4LtpzjRYaLHJGPUxzjBX9Tf5ZHLUy7btgGfWgvn1t6uXLFp7JkRVdzv6BBDwRZj</p>
+        <img src="static/media/xmr_qr.png">
+    </div>
 </div>
 {% endblock %}
