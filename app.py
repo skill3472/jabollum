@@ -89,7 +89,7 @@ def submit_suggestion():
             flash("Nieprawidłowy typ pliku!")
             return redirect("/submit")
         filename = secure_filename(image.filename)
-        new_filename = str(len(db) + 1) + filename
+        new_filename = str(len(db) + 1) + request.form["name"] + filename
         old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
         image.save(old_image_path)
