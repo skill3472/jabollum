@@ -48,17 +48,19 @@
       <img src="static/media/banner.png">
       {% endif %}
     </div>
-    <div class="content">
-        {% block content %}{% endblock %}
-    </div>
-    <div class="flash">
+    <div class="flash" style="text-align: center;padding-top: 3%;">
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for msg in messages %}
-            <p>{{msg}}</p>
+            <blockquote class="blockquote">
+              <p>{{msg}}</p>
+            </blockquote>
           {% endfor %}
         {% endif %}
       {% endwith %}
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
     </div>
 </body>
 </html>
