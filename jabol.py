@@ -44,3 +44,18 @@ def countUnverified(file):
         if key != None and key["verified"] == False:
             count += 1
     return count
+
+def purge_db(file1, file2):
+    db1 = readfile(file1)
+    db2 = readfile(file2)
+    x = input('TEN PROGRAM KASUJE OBIE BAZY DANYCH. OBIE KURWA BAZY DANYCH.\nCZY NA PEWNO CHCESZ TO ZROBIC IDIOTO? (ABY POTWIERDZIC, WPISZ "JESTEM DEBILEM"): ')
+    if x == 'JESTEM DEBILEM':
+        for i in range(1, int(list(db1)[-1])+1):
+            if db1.get(f"{i}") != None:
+                removeentry(file1, i)
+        for i in range(1, int(list(db2)[-1])+1):
+            if db2.get(f"{i}") != None:
+                removeentry(file2, i)
+        return 'Wyczyszczono obie bazy danych!'
+    else:
+        return 'Anulowano.'
