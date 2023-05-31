@@ -2,9 +2,12 @@
 import json
 import os
 from jabol import *
+from datetime import datetime
+import shutil
 
 file = "db/db.json"
 reviews_file = "db/reviews.json"
+BACKUP_PATH = "db/backups/"
 
 def addentry(file):
     data = {}
@@ -67,6 +70,17 @@ def verifyReviews(file):
         else:
             print("To nie jest poprawna wartosc!")
 
+def backup(main_file, review_file, backup_location):
+    date = datetime.now().strftime("%d-%m-%Y_%H-%M")
+    path = backup_location + date
+    try:
+        os.makedirs(path)
+        shutil.copy2(main_file, path)
+        shutil.copy2(review_file, path)
+        print('Backups made!')
+    except OSError:
+        pass
+
 def main():
     x = countUnverified(file)
     y = countUnverified(reviews_file)
@@ -79,7 +93,7 @@ def main():
     ''')
     print("Witaj w programie do zarzadzania bazą danych Jabollum!")
     print(f"Masz {x} wpisow do zweryfikowania, oraz {y} recenzji do zweryfikowania.")
-    choice = input("Wybierz opcje: \n 1. Dodaj nowy wpis \n 2. Wyswietl baze danych\n 3. Usun wpis\n 4. Weryfikuj wpisy\n 5. Weryfikuj recenzje\n 6. Wyjdz\n")
+    choice = input("Wybierz opcje: \n 1. Dodaj nowy wpis \n 2. Wyswietl baze danych\n 3. Usun wpis\n 4. Weryfikuj wpisy\n 5. Weryfikuj recenzje\n 6. Backup\n 7. Wyjdz\n")
     match choice:
         case "1":
             print(addentry(file))
@@ -98,6 +112,9 @@ def main():
             verifyReviews(reviews_file)
             main()
         case "6":
+            backup(file, reviews_file, BACKUP_PATH)
+            main()
+        case "7":
             exit()
 
 if __name__ == "__main__":
