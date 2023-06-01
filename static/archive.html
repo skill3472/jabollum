@@ -15,7 +15,7 @@
             {% for row in table_data %}
 			    <tr>
             <td scope="row"><img class="thumb" src="{{ url_for('static', filename=row['image']) }}"></td>
-				    <td><a href="/archive/{{ loop.index }}">{{ row['name'] }}</a></td>
+				    <td><a href="/archive/{{ row['idx'] }}">{{ row['name'] }}</a></td>
 				    <td>{{ row['shops'] }}</td>
             <td>{{ row ['price'] }}zł</td>
 				    <td>{{ row['score'] }}</td>

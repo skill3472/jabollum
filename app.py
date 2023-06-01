@@ -33,6 +33,7 @@ def archive():
     for entry in data:
         data[entry]["price"] = "{:.2f}".format(data[entry]["price"])
         if data[entry]["verified"]:
+            data[entry]["idx"] = entry
             verified_entries.append(data[entry])
     return render_template('archive.html', table_data=verified_entries)
 
