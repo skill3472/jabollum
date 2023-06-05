@@ -73,6 +73,22 @@ def id(id):
             return "Nieprawidłowa metoda! Użyj POST, albo GET."
     else:
         return "Nieprawidłowe id!"
+    
+@app.route("/archive/<id>/submit-vote", methods=["POST"])
+def submit_vote(id):
+    print("id:", id)
+    with open(file, "r") as f:
+        database = json.load(f)
+    user_id = str(request.headers['x-real-ip'])
+    score = int(request.form["score"])
+    if user_id not in database[f"{id}"]["votes"]:
+        database[f"{id}"]["votes"].append(user_id)
+        database[f"{id}"]["scores"].append(score)
+        database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
+        save_database(file, database)
+    else:
+        flash("Już oceniałeś tego jabola!")
+    return redirect(f"/archive/{id}")
 
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
