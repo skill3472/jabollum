@@ -8,3 +8,8 @@
 [Discord](https://discord.gg/8Ugkr4d5Ax)
 
 [Jabollum](https://jabole.pro)
+
+---
+
+### Jeśli chcesz wesprzeć nasz projekt, możesz zrobić to na naszym Ko-fi!
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E2LOGO7)
