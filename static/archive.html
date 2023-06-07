@@ -5,10 +5,10 @@
         <thead>
             <tr>
                 <th></th>
-                <th onclick="sortTable(0)" scope="col">Nazwa</th>
-                <th onclick="sortTable(1)" scope="col">Sklepy</th>
-                <th onclick="sortTable(2)" scope="col">Cena</th>
-                <th onclick="sortTable(3)" scope="col">Ocena</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Sklepy</th>
+                <th scope="col">Cena</th>
+                <th scope="col">Ocena</th>
             </tr>
         </thead>
         <tbody>
@@ -23,43 +23,26 @@
 			{% endfor %}
         </tbody>
     </table>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
-        function sortTable(n) {
-          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-          table = document.getElementById("table1");
-          switching = true;
-          dir = "asc";
-          while (switching) {
-            switching = false;
-            rows = table.rows;
-            for (i = 1; i < (rows.length - 1); i++) {
-              shouldSwitch = false;
-              x = rows[i].getElementsByTagName("TD")[n];
-              y = rows[i + 1].getElementsByTagName("TD")[n];
-              if (dir == "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                  shouldSwitch = true;
-                  break;
-                }
-              } else if (dir == "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                  shouldSwitch = true;
-                  break;
-                }
-              }
-            }
-            if (shouldSwitch) {
-              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-              switching = true;
-              switchcount ++;
-            } else {
-              if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
-              }
-            }
-          }
-        }
+      $(document).ready(function () {
+      $('#table1').DataTable({
+        language: {
+            lengthMenu: 'Wyświetl _MENU_ jaboli na stronę',
+            zeroRecords: 'Nie znaleziono jaboli',
+            info: 'Pokazuję stronę _PAGE_ z _PAGES_',
+            infoEmpty: 'Nie znaleziono',
+            infoFiltered: '(wyfiltrowane z _MAX_ wyników)',
+            search: 'Wyszukaj jabola:',
+            paginate: {
+              first:      "Pierwsza",
+              previous:   "Poprzednia",
+              next:       "Następna",
+              last:       "Ostatnia"
+            },
+        },
+      });
+      });
     </script>
 {% endblock %}
