@@ -34,6 +34,7 @@ def archive():
         data[entry]["price"] = "{:.2f}".format(data[entry]["price"])
         if data[entry]["verified"]:
             data[entry]["idx"] = entry
+            data[entry]["score"] = round(data[entry]["score"], 2)
             verified_entries.append(data[entry])
     return render_template('archive.html', table_data=verified_entries)
 
@@ -57,6 +58,8 @@ def id(id):
             for i in review_data_unfiltered:
                 if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
                     review_data.append(review_data_unfiltered[i])
+            for i in data:
+                data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
             return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True)
         elif request.method == "POST":
             new_entry = {}
