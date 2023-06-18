@@ -144,5 +144,9 @@ def submit_suggestion():
     else:
         return "Nieprawidłowa metoda! Użyj POST, albo GET."
 
+@app.route("/discord")
+def discord():
+    return redirect('https://discord.gg/8Ugkr4d5Ax')
+
 if __name__ == '__main__':
     app.run(debug=True)
