@@ -1,19 +1,25 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, abort
 from werkzeug.utils import secure_filename
 from jabol import *
 import json
 import os
 from datetime import datetime
+import yaml
+import requests
 
 file = "db/db.json"
 review_file = "db/reviews.json"
 UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
+VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+
+with open("secrets.yaml", "r") as f:
+    SECRETS = yaml.safe_load(f)
 
 app = Flask(__name__, template_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
-app.config['SECRET_KEY'] = open("secret.txt", "r").read()
+app.config['SECRET_KEY'] = SECRETS['flask_secret']
 
 
 def allowed_file(filename):
@@ -62,6 +68,12 @@ def id(id):
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
             return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True)
         elif request.method == "POST":
+            response = request.form['g-recaptcha-response']
+            verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
+            print(response)
+            print(verify_response)
+            if verify_response['success'] == False:
+                abort(401)
             new_entry = {}
             new_entry["drink_id"] = id
             new_entry["name"] = request.form["name"]
@@ -96,7 +108,7 @@ def submit_vote(id):
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
     if request.method == "GET":
-        return render_template('submit.html', submitted=False)
+        return render_template('submit.html', submitted=False, site_key=SECRETS['site_key'])
     elif request.method == "POST":
         db = readfile(file)
         new_entry = {}

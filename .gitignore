@@ -4,8 +4,8 @@ docs/
 # Database files
 db/
 
-# Flask secret
-secret.txt
+# Secrets
+secrets.yaml
 
 # Pychache
 __pycache__/
