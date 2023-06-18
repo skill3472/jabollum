@@ -2,7 +2,7 @@
 {% block title %}Szczegóły{% endblock %}
 {% block content %}
     <div class="jabol-info" style="text-align: center; padding-top: 3%;">
-        <img src="{{ url_for('static', filename=jabol_data['image']) }}">
+        <img src="{{ url_for('static', filename=jabol_data['image']) }}" class="jabol-image">
         <h1>{{ jabol_data['name'] }}</h1>
         <p>Sklepy: {{ jabol_data['shops'] }}</p>
         <p>Ocena: {{ jabol_data['score'] }}</p>

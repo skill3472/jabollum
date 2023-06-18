@@ -54,3 +54,9 @@ body {
     margin-left: 30%;
     margin-right: 30%;
 }
+
+.jabol-image {
+    display: block;
+    max-width: 50%;
+    margin: auto;
+}
