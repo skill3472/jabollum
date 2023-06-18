@@ -70,8 +70,6 @@ def id(id):
         elif request.method == "POST":
             response = request.form['g-recaptcha-response']
             verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
-            print(response)
-            print(verify_response)
             if verify_response['success'] == False:
                 abort(401)
             new_entry = {}
