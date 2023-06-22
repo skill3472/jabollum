@@ -248,6 +248,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop("user", None)
+    flash("Zostałeś/aś wylogowany/a!")
     return redirect("/")
 
 @app.route("/profile")
