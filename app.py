@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import yaml
 import requests
 import bcrypt
+import urllib.parse
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
 VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
@@ -28,6 +29,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 app.config['SECRET_KEY'] = SECRETS['flask_secret']
 app.secret_key = SECRETS['flask_secret']
 app.permanent_session_lifetime = timedelta(days=7)
+app.kofi_key = SECRETS['kofi_key']
 
 
 def allowed_file(filename):
@@ -75,6 +77,24 @@ def donate():
     else:
         loggedIn = False
     return render_template('donate.html', loggedIn=loggedIn)
+
+@app.route("/kofi-backend", methods = ["POST"])
+def kofi_verify():
+    req = urllib.parse.unquote_plus(request.data)[5:]
+    if req["verification_token"] != app.kofi_key:
+        return "Bad token"
+    else:
+        users = readfile(users_file)
+        if req["from_name"] in [user["username"] for user in users]:
+            users["from_name"]["pro"] = True
+            for i in users:
+                if users[f'{i}']["username"] == request.form["username"]:
+                    user = users[f'{i}']
+                    uid = i
+            edit_database(uid, "pro", True, users_file)
+            return f"{req['from_name']} marked pro"
+        else:
+            return "No user registered with this name"
 
 @app.route('/archive/<id>', methods=["GET", "POST"])
 def id(id):
