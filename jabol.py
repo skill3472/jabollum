@@ -1,5 +1,6 @@
 import os
 import json
+import bcrypt
 
 def readfile(file):
     if os.path.exists(file) and os.stat(file).st_size > 0:
@@ -59,3 +60,9 @@ def purge_db(file1, file2):
         return 'Wyczyszczono obie bazy danych!'
     else:
         return 'Anulowano.'
+    
+def hash_password(plain_text_password):
+    return bcrypt.hashpw(plain_text_password, bcrypt.gensalt())
+
+def check_password(plain_text_password, hashed_password):
+    return bcrypt.checkpw(plain_text_password, hashed_password)

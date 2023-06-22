@@ -41,6 +41,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="/donate">Wesprzyj nas!</a>
               </li>
+              {% if loggedIn %}
+              <li class="nav-item">
+                <a class="nav-link" href="/profile">Profil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Wyloguj</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Logowanie</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Rejestracja</a>
+              </li>
+              {% endif %}
             </ul>
           </div>
         </div>

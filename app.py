@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, abort
+from flask import Flask, render_template, request, flash, redirect, url_for, abort, session
 from werkzeug.utils import secure_filename
 from jabol import *
 import json
@@ -6,9 +6,11 @@ import os
 from datetime import datetime
 import yaml
 import requests
+import bcrypt
 
 file = "db/db.json"
 review_file = "db/reviews.json"
+users_file = "db/users.json"
 UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
 VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
@@ -20,6 +22,7 @@ app = Flask(__name__, template_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 app.config['SECRET_KEY'] = SECRETS['flask_secret']
+app.secret_key = SECRETS['flask_secret']
 
 
 def allowed_file(filename):
@@ -28,11 +31,19 @@ def allowed_file(filename):
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
+    return render_template('index.html', loggedIn=loggedIn)
 
 
 @app.route('/archive')
 def archive():
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
     with open(file, "r") as f:
         data = json.load(f)
     verified_entries = []
@@ -42,15 +53,23 @@ def archive():
             data[entry]["idx"] = entry
             data[entry]["score"] = round(data[entry]["score"], 2)
             verified_entries.append(data[entry])
-    return render_template('archive.html', table_data=verified_entries)
+    return render_template('archive.html', table_data=verified_entries, loggedIn=loggedIn)
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
+    return render_template('contact.html', loggedIn=loggedIn)
 
 @app.route('/donate')
 def donate():
-    return render_template('donate.html')
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
+    return render_template('donate.html', loggedIn=loggedIn)
 
 @app.route('/archive/<id>', methods=["GET", "POST"])
 def id(id):
@@ -58,6 +77,10 @@ def id(id):
         data = json.load(f)
     if id in data.keys():
         if request.method == "GET":
+            if "user" in session:
+                loggedIn = True
+            else:
+                loggedIn = False
             with open(review_file, "r") as f:
                 review_data_unfiltered = json.load(f)
             review_data = []
@@ -66,7 +89,7 @@ def id(id):
                     review_data.append(review_data_unfiltered[i])
             for i in data:
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'])
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn)
         elif request.method == "POST":
             # response = request.form['g-recaptcha-response']
             # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
@@ -110,7 +133,11 @@ def submit_vote(id):
 @app.route("/submit", methods=["POST", "GET"])
 def submit_suggestion():
     if request.method == "GET":
-        return render_template('submit.html', submitted=False, site_key=SECRETS['site_key'])
+        if "user" in session:
+            loggedIn = True
+        else:
+            loggedIn = False
+        return render_template('submit.html', submitted=False, site_key=SECRETS['site_key'], loggedIn=loggedIn)
     elif request.method == "POST":
         db = readfile(file)
         new_entry = {}
@@ -147,6 +174,87 @@ def submit_suggestion():
         return redirect("/submit")
     else:
         return "Nieprawidłowa metoda! Użyj POST, albo GET."
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    if request.method == "GET":
+        if "user" in session:
+            loggedIn = True
+        else:
+            loggedIn = False
+        return render_template("register.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
+    elif request.method == "POST":
+        # response = request.form['g-recaptcha-response']
+        # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
+        # if verify_response['success'] == False:
+        #     abort(401)
+
+        users = readfile(users_file)
+        usernames = []
+        for i in users:
+            usernames.append(users[f'{i}']["username"])
+        if request.form["password"] == request.form["rpassword"]:
+            new_user = {}
+            new_user["username"] = request.form["username"]
+            new_user["password"] = hash_password(request.form["password"])
+            new_user["date_created"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
+            new_user["last_login"] = new_user["date_created"]
+            if new_user["username"] not in usernames:
+                appendfile(users_file, new_user)
+                flash("Pomyślnie utworzono konto!")
+                return redirect('/register')
+            else:
+                flash("Użytkownik o takiej nazwie już istnieje!")
+                return redirect('/register')
+        else:
+            flash("Hasła muszą być takie same.")
+            return redirect('/register')
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "GET":
+        if "user" in session:
+            loggedIn = True
+        else:
+            loggedIn = False
+        return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
+    elif request.method == "POST":
+        users = readfile(users_file)
+        found = False
+        for i in users:
+            if users[f'{i}']["username"] == request.form["username"]:
+                found = True
+                user = users[f'{i}']
+                uid = i
+        if found:
+            if check_password(request.form["password"], user["password"]):
+                edit_database(uid, "last_login", datetime.now().strftime("%d.%m.%Y - %H:%M"), users_file)
+                session["user"] = uid
+                flash("Zalogowano pomyślnie!")
+                return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=True)
+            else:
+                flash("Wprowadzone dane są nieprawidłowe.")
+                return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
+        else:
+            flash("Wprowadzone dane są nieprawidłowe.")
+            return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
+        
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect("/")
+
+@app.route("/profile")
+def profile():
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
+        return redirect("/login")
+    users = readfile(users_file)
+    user = session["user"]
+    userdata = users[f'{user}']
+    return render_template("profile.html", loggedIn=loggedIn, userdata=userdata)
 
 @app.route("/discord")
 def discord():

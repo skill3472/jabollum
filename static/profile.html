@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Twój profil{% endblock %}
+{% block content %}
+<div class="user-info" style="text-align: center; padding-top: 3%;">
+    <h1>{{ userdata['username'] }}</h1>
+    <p>Ostatnie logowanie: {{ userdata['last_login'] }}</p>
+    <p>Konto utworzone: {{ userdata['date_created'] }}</p>
+    <button class="btn btn-primary" id="logoutButton">Wyloguj</button>
+</div>
+<script>
+    document.getElementById("logoutButton").onclick = function () {
+        location.href = "/logout";
+    };
+</script>
+{% endblock %}
