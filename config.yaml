@@ -1,0 +1,5 @@
+discord_link: 'https://discord.gg/8Ugkr4d5Ax'
+upload_folder: 'static/images/'
+main_db_file: 'db/db.json'
+review_db_file: 'db/reviews.json'
+users_db_file: 'db/users.json'

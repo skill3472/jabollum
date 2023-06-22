@@ -8,15 +8,19 @@ import yaml
 import requests
 import bcrypt
 
-file = "db/db.json"
-review_file = "db/reviews.json"
-users_file = "db/users.json"
-UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp'}
 VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
 
 with open("secrets.yaml", "r") as f:
     SECRETS = yaml.safe_load(f)
+
+with open("config.yaml", "r") as f:
+    CONFIG = yaml.safe_load(f)
+
+UPLOAD_FOLDER = CONFIG["upload_folder"]
+file = CONFIG["main_db_file"]
+review_file = CONFIG["review_db_file"]
+users_file = CONFIG["users_db_file"]
 
 app = Flask(__name__, template_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
