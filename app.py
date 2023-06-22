@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, abort, session
+from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, send_from_directory
 from werkzeug.utils import secure_filename
 from jabol import *
 import json
@@ -260,9 +260,14 @@ def profile():
     userdata = users[f'{user}']
     return render_template("profile.html", loggedIn=loggedIn, userdata=userdata)
 
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
 @app.route("/discord")
 def discord():
-    return redirect('https://discord.gg/8Ugkr4d5Ax')
+    return redirect(CONFIG["discord_link"])
 
 if __name__ == '__main__':
     app.run(debug=True)
