@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from jabol import *
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import yaml
 import requests
 import bcrypt
@@ -27,6 +27,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 app.config['SECRET_KEY'] = SECRETS['flask_secret']
 app.secret_key = SECRETS['flask_secret']
+app.permanent_session_lifetime = timedelta(days=7)
 
 
 def allowed_file(filename):
@@ -233,6 +234,7 @@ def login():
         if found:
             if check_password(request.form["password"], user["password"]):
                 edit_database(uid, "last_login", datetime.now().strftime("%d.%m.%Y - %H:%M"), users_file)
+                session.permanent = True
                 session["user"] = uid
                 flash("Zalogowano pomyślnie!")
                 return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=True)
