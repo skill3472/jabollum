@@ -66,18 +66,18 @@ def id(id):
                     review_data.append(review_data_unfiltered[i])
             for i in data:
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True)
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'])
         elif request.method == "POST":
-            response = request.form['g-recaptcha-response']
-            verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
-            if verify_response['success'] == False:
-                abort(401)
+            # response = request.form['g-recaptcha-response']
+            # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
+            # if verify_response['success'] == False:
+            #     abort(401)
             new_entry = {}
             new_entry["drink_id"] = id
             new_entry["name"] = request.form["name"]
             new_entry["review"] = request.form["review"]
             new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
-            new_entry["uid"] = str(request.remote_addr)
+            new_entry["uid"] = str(request.headers['x-real-ip'])
             new_entry["verified"] = False
             appendfile(review_file, new_entry)
             flash("Recenzja wysłana, czekaj na weryfikację!")
@@ -89,7 +89,11 @@ def id(id):
     
 @app.route("/archive/<id>/submit-vote", methods=["POST"])
 def submit_vote(id):
-    print("id:", id)
+    # response = request.form['g-recaptcha-response']
+    # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
+    # if verify_response['success'] == False:
+    #     abort(401)
+    print("Jabol o tym id zostal oceniony:", id)
     with open(file, "r") as f:
         database = json.load(f)
     user_id = str(request.headers['x-real-ip'])

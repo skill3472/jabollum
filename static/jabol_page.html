@@ -6,10 +6,10 @@
         <h1>{{ jabol_data['name'] }}</h1>
         <p>Sklepy: {{ jabol_data['shops'] }}</p>
         <p>Ocena: {{ jabol_data['score'] }}</p>
-        <form method="POST" action="/archive/{{ id }}/submit-vote">
+        <form method="POST" action="/archive/{{ id }}/submit-vote" id="submit-score-form" enctype="multipart/form-data">
             <label for="score">Twoja ocena:</label>
             <input type="number" name="score" min="1" max="10" size="2" required>
-            <button type="submit" class="btn btn-primary">Wyślij</button>
+            <button class="g-recaptcha btn btn-primary" type=submit data-sitekey="{{ site_key }}" data-callback='onSubmit' data-action='submit'>Wyślij</button>
         </form>
         <p>Opis:</p>
         <p>{{ jabol_data['description'] }}</p>
@@ -28,7 +28,7 @@
                     <textarea name="review" class="form-control" placeholder="Twoja recenzja..." required></textarea>
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary" type="submit">Prześlij</button>
+                    <button class="btn btn-primary" type=submit>Prześlij</button>
                 </div>
             </div>
         </form>
@@ -51,5 +51,9 @@
             {% endfor %}
         </tbody>
     </table>
-
+    <script>
+        function onSubmit(token) {
+          document.getElementById("submit-score-form").submit();
+        }
+    </script> 
 {% endblock %}
