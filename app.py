@@ -31,6 +31,11 @@ app.secret_key = SECRETS['flask_secret']
 app.permanent_session_lifetime = timedelta(days=7)
 app.kofi_key = SECRETS['kofi_key']
 
+user_colors = { # Nie użyte jeszcze nigdzie, może użyjemy
+    "admin": "red",
+    "donator": "gold",
+    "none": "grey"
+}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -224,6 +229,8 @@ def register():
             new_user["password"] = hash_password(request.form["password"])
             new_user["date_created"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
             new_user["last_login"] = new_user["date_created"]
+            new_user["pro"] = False
+            new_user["admin"] = False
             if new_user["username"] not in usernames:
                 appendfile(users_file, new_user)
                 flash("Pomyślnie utworzono konto!")
@@ -242,7 +249,7 @@ def login():
             loggedIn = True
         else:
             loggedIn = False
-        return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
+        return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn, user_colors=user_colors)
     elif request.method == "POST":
         users = readfile(users_file)
         found = False

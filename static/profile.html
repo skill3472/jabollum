@@ -2,7 +2,7 @@
 {% block title %}Twój profil{% endblock %}
 {% block content %}
 <div class="user-info" style="text-align: center; padding-top: 3%;">
-    <h1>{{ userdata['username'] }}</h1>
+    <h1 class="user">{{ userdata['username'] }}</h1>
     <p>Ostatnie logowanie: {{ userdata['last_login'] }}</p>
     <p>Konto utworzone: {{ userdata['date_created'] }}</p>
     <button class="btn btn-primary" id="logoutButton">Wyloguj</button>
@@ -12,4 +12,23 @@
         location.href = "/logout";
     };
 </script>
+{% if userdata['admin'] %}
+<style>
+    h1.user {
+        color: red !important;
+    }
+</style>
+{% elif userdata['pro'] %}
+<style>
+    h1.user {
+        color: gold !important;
+    }
+</style>
+{% else %}
+<style>
+    h1.user {
+        color: grey !important;
+    }
+</style>
+{% endif %}
 {% endblock %}
