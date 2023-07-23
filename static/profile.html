@@ -1,11 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Twój profil{% endblock %}
+{% block title %}
+{% if isChild != True %}
+Twój profil
+{% else %}
+Profil {{ userdata['username'] }}
+{% endif %}
+{% endblock %}
 {% block content %}
 <div class="user-info" style="text-align: center; padding-top: 3%;">
     <h1 class="user">{{ userdata['username'] }}</h1>
     <p>Ostatnie logowanie: {{ userdata['last_login'] }}</p>
     <p>Konto utworzone: {{ userdata['date_created'] }}</p>
+    {% if isChild != True%}
     <button class="btn btn-primary" id="logoutButton">Wyloguj</button>
+    {% endif %}
 </div>
 <script>
     document.getElementById("logoutButton").onclick = function () {

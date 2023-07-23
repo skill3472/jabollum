@@ -127,11 +127,16 @@ def id(id):
             #     abort(401)
             new_entry = {}
             new_entry["drink_id"] = id
-            new_entry["name"] = request.form["name"]
             new_entry["review"] = request.form["review"]
             new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
-            new_entry["uid"] = str(request.headers['x-real-ip'])
             new_entry["verified"] = False
+            if "user" in session:
+                userdat = get_user_data(users_file, session["user"])
+                new_entry["name"] = userdat["username"]
+                new_entry["uid"] = session["user"]
+            else:
+                new_entry["name"] = "Anonimowy użytkownik"
+                new_entry["uid"] = str(request.headers['x-real-ip'])
             appendfile(review_file, new_entry)
             flash("Recenzja wysłana, czekaj na weryfikację!")
             return redirect(f"/archive/{id}")
@@ -171,7 +176,7 @@ def submit_suggestion():
     elif request.method == "POST":
         db = readfile(file)
         new_entry = {}
-        user_id = str(request.remote_addr)
+        user_id = str(request.headers['x-real-ip'])
         image = request.files.get("image")
         if not image:
             flash('Brak pliku!')
@@ -288,10 +293,17 @@ def profile():
     else:
         loggedIn = False
         return redirect("/login")
-    users = readfile(users_file)
-    user = session["user"]
-    userdata = users[f'{user}']
+    userdata = get_user_data(users_file, session["user"])
     return render_template("profile.html", loggedIn=loggedIn, userdata=userdata)
+
+@app.route("/profile/<uid>")
+def viewProfile(uid):
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
+    userdata = get_user_data(users_file, uid)
+    return render_template("profile.html", loggedIn=loggedIn, userdata=userdata, isChild = True)
 
 @app.route('/robots.txt')
 @app.route('/sitemap.xml')

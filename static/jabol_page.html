@@ -21,9 +21,11 @@
         <h2>Dodaj swoją recenzję:</h2>
         <form method="POST" action="#">
             <div class="form-row">
+                {% if loggedIn == False %}
                 <div class="col">
                     <input type="text" name="name" class="form-control" placeholder="Nick/Imię" required>
                 </div>
+                {% endif %}
                 <div class="col">
                     <textarea name="review" class="form-control" placeholder="Twoja recenzja..." required></textarea>
                 </div>
@@ -44,7 +46,11 @@
         <tbody>
             {% for review in review_data %}
             <tr>
+                {% if review['name'] != 'Anonimowy użytkownik' %}
+                <td scope="row"><a href="/profile/{{ review['uid'] }}">{{ review['name'] }}</a></td>
+                {% else %}
                 <td scope="row">{{ review['name'] }}</td>
+                {% endif %}
                 <td>{{ review['review'] }}</td>
                 <td>{{ review['date'] }}</td>
             </tr>

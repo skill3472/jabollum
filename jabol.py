@@ -66,3 +66,8 @@ def hash_password(plain_text_password):
 
 def check_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password, hashed_password)
+
+def get_user_data(users_file, session_uid):
+    users = readfile(users_file)
+    user = session_uid
+    return users[f'{user}']
