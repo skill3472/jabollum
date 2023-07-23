@@ -71,3 +71,19 @@ def get_user_data(users_file, session_uid):
     users = readfile(users_file)
     user = session_uid
     return users[f'{user}']
+
+def get_admin_list(users_file):
+    list = []
+    users = readfile(users_file)
+    for uid in users:
+        if users[f"{uid}"]["admin"] == True:
+            list.append(uid)
+    return list
+
+def get_pro_list(users_file):
+    list = []
+    users = readfile(users_file)
+    for uid in users:
+        if users[f"{uid}"]["pro"] == True:
+            list.append(uid)
+    return list

@@ -19,6 +19,10 @@ body {
     margin-bottom: 15% !important;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .title {
     text-align: center;
     border: 3px solid #000000;

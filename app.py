@@ -119,7 +119,9 @@ def id(id):
                     review_data.append(review_data_unfiltered[i])
             for i in data:
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn)
+            admins = get_admin_list(users_file=users_file)
+            pro = get_pro_list(users_file=users_file)
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn, admins=admins, pro=pro)
         elif request.method == "POST":
             # response = request.form['g-recaptcha-response']
             # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
