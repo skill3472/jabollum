@@ -187,7 +187,10 @@ def submit_suggestion():
         os.rename(old_image_path, image_path)
         new_entry["image"] = f'images/{new_filename}'
         new_entry["name"] = request.form["name"]
-        new_entry["shops"] = request.form["shops"]
+        if request.form["not-in-sale"] == False:
+            new_entry["shops"] = request.form["shops"]
+        else:
+            new_entry["shops"] = "Wycofany ze sprzedaży."
         new_entry["price"] = float(request.form["price"])
         new_entry["ac"] = float(request.form["ac"])
         new_entry["vol"] = float(request.form["vol"])
