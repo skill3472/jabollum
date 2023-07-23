@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Szczegóły{% endblock %}
 {% block content %}
+<button class="btn btn-secondary" style="margin-left: 20px;" id="back">Wróc do archiwum</button>
     <div class="jabol-info" style="text-align: center; padding-top: 3%;">
         <img src="{{ url_for('static', filename=jabol_data['image']) }}" class="jabol-image">
         <h1>{{ jabol_data['name'] }}</h1>
@@ -67,6 +68,9 @@
         function onSubmit(token) {
           document.getElementById("submit-score-form").submit();
         }
+        document.getElementById("back").onclick = function () {
+            location.href = "/archive";
+        };
     </script>
     <style>
         a.userAdmin {
@@ -79,4 +83,5 @@
             color: grey !important;
         }
     </style>
+    
 {% endblock %}
