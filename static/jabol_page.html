@@ -43,6 +43,7 @@
                 <th scope="col">Nick</th>
                 <th scope="col">Recencja</th>
                 <th scope="col">Data opublikowania</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +62,11 @@
                 {% endif %}
                 <td>{{ review['review'] }}</td>
                 <td>{{ review['date'] }}</td>
+                {% if review['uid'] == uid %}
+                <td><a href="/remove-review/{{ review['idx'] }}"><button class="btn btn-danger">Usuń</button></a></td>
+                {% else %}
+                <td></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -69,9 +75,6 @@
         function onSubmit(token) {
           document.getElementById("submit-score-form").submit();
         }
-        document.getElementById("back").onclick = function () {
-            location.href = "/archive";
-        };
     </script>
     <style>
         a.userAdmin {

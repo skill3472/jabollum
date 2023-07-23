@@ -116,12 +116,13 @@ def id(id):
             review_data = []
             for i in review_data_unfiltered:
                 if review_data_unfiltered[i]["drink_id"] == id and review_data_unfiltered[i]["verified"]:
+                    review_data_unfiltered[i]['idx'] = i
                     review_data.append(review_data_unfiltered[i])
             for i in data:
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
             admins = get_admin_list(users_file=users_file)
             pro = get_pro_list(users_file=users_file)
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn, admins=admins, pro=pro)
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn, admins=admins, pro=pro, uid=session['user'])
         elif request.method == "POST":
             # response = request.form['g-recaptcha-response']
             # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')
@@ -315,6 +316,18 @@ def static_from_root():
 @app.route("/discord")
 def discord():
     return redirect(CONFIG["discord_link"])
+
+@app.route("/remove-review/<id>")
+def remove_review(id):
+    if 'user' not in session:
+        redirect('/')
+    else:
+        uid = session['user']
+        reviews = readfile(review_file)
+        if reviews[f"{id}"]['uid'] == uid:
+            x = id
+            removeentry(review_file, x)
+        return redirect(f"/archive")
 
 if __name__ == '__main__':
     app.run(debug=True)
