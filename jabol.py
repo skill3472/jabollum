@@ -99,3 +99,8 @@ def check_ip(string):
 		return True
 	else:
 		return False
+
+def add_points(uid, points_to_add, users_file): # Note: you can also REMOVE points with this function, using a negative number
+    usr_data = get_user_data(users_file, uid)
+    usr_data['points'] += points_to_add
+    edit_database(uid, 'points', usr_data['points'], users_file)

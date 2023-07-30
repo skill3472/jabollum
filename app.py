@@ -163,15 +163,24 @@ def submit_vote(id):
     # if verify_response['success'] == False:
     #     abort(401)
     print("Jabol o tym id zostal oceniony:", id)
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
     with open(file, "r") as f:
         database = json.load(f)
-    user_id = str(request.headers['x-real-ip'])
+    if loggedIn:
+        user_id = session['user']
+    else:
+        user_id = str(request.headers['x-real-ip'])
     score = int(request.form["score"])
     if user_id not in database[f"{id}"]["votes"]:
         database[f"{id}"]["votes"].append(user_id)
         database[f"{id}"]["scores"].append(score)
         database[f"{id}"]["score"] = sum(database[f"{id}"]["scores"]) / len(database[f"{id}"]["scores"])
         save_database(file, database)
+        if loggedIn:
+            add_points(session['user'], 15, users_file)
     else:
         flash("Już oceniałeś tego jabola!")
     return redirect(f"/archive/{id}")
@@ -248,6 +257,7 @@ def register():
             new_user["password"] = hash_password(request.form["password"])
             new_user["date_created"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
             new_user["last_login"] = new_user["date_created"]
+            new_user["points"] = 0
             new_user["pro"] = False
             new_user["admin"] = False
             if new_user["username"] not in usernames:
