@@ -81,13 +81,14 @@ def verifyReviews(file):
         else:
             print("To nie jest poprawna wartosc!")
 
-def backup(main_file, review_file, backup_location):
+def backup(main_file, review_file, users_file,  backup_location):
     date = datetime.now(tzinfo).strftime("%d-%m-%Y_%H-%M")
     path = backup_location + date
     try:
         os.makedirs(path)
         shutil.copy2(main_file, path)
         shutil.copy2(review_file, path)
+        shutil.copy2(users_file, path)
         print('Backups made!')
     except OSError:
         pass
@@ -123,7 +124,7 @@ def main():
             verifyReviews(reviews_file)
             main()
         case "6":
-            backup(FILE, reviews_file, BACKUP_PATH)
+            backup(FILE, reviews_file, USERS_FILE, BACKUP_PATH)
             main()
         case "7":
             exit()
