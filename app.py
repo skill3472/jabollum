@@ -67,6 +67,12 @@ def archive():
         if data[entry]["verified"]:
             data[entry]["idx"] = entry
             data[entry]["score"] = round(data[entry]["score"], 2)
+            if data[entry]["score"] >= 7:
+                data[entry]["color"] = 'green'
+            elif data[entry]["score"] >= 4:
+                data[entry]["color"] = 'orange'
+            else:
+                data[entry]["color"] = 'red'
             verified_entries.append(data[entry])
     return render_template('archive.html', table_data=verified_entries, loggedIn=loggedIn)
 

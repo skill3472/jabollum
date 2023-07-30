@@ -18,7 +18,7 @@
 				    <td><a href="/archive/{{ row['idx'] }}">{{ row['name'] }}</a></td>
 				    <td>{{ row['shops'] }}</td>
             <td data-order="{{ row ['price'] }}">{{ row ['price'] }}zł</td>
-				    <td>{{ row['score'] }}</td>
+				    <td class="{{ row['color'] }}">{{ row['score'] }}</td>
 			  </tr>
 			{% endfor %}
         </tbody>
