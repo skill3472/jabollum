@@ -295,11 +295,11 @@ def register():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    if "user" in session:
+        loggedIn = True
+    else:
+        loggedIn = False
     if request.method == "GET":
-        if "user" in session:
-            loggedIn = True
-        else:
-            loggedIn = False
         return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn, user_colors=user_colors)
     elif request.method == "POST":
         users = readfile(users_file)
