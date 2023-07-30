@@ -73,8 +73,11 @@
     </table>
     <script>
         function onSubmit(token) {
-          document.getElementById("submit-score-form").submit();
+            document.getElementById("submit-score-form").submit();
         }
+        document.getElementById("back").onclick = function () {
+            location.href = "/archive";
+        };
     </script>
     <style>
         a.userAdmin {
