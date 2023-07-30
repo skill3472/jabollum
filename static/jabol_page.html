@@ -7,7 +7,7 @@
         <h1>{{ jabol_data['name'] }}</h1>
         <p>Sklepy: {{ jabol_data['shops'] }}</p>
         <p>Ostatnia znana cena: {{ jabol_data['price'] }}zł</p>
-        <p>Ocena: {{ jabol_data['score'] }}</p>
+        <p class="{{ jabol_data['color'] }}">Ocena: {{ jabol_data['score'] }}</p>
         <form method="POST" action="/archive/{{ id }}/submit-vote" id="submit-score-form" enctype="multipart/form-data">
             <label for="score">Twoja ocena:</label>
             <input type="number" name="score" min="1" max="10" size="2" required>

@@ -129,6 +129,12 @@ def id(id):
                     review_data.append(review_data_unfiltered[i])
             for i in data:
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
+                if data[f"{i}"]["score"] >= 7:
+                    data[f"{i}"]["color"] = 'green'
+                elif data[f"{i}"]["score"] >= 4:
+                    data[f"{i}"]["color"] = 'orange'
+                else:
+                    data[f"{i}"]["color"] = 'red'
             admins = get_admin_list(users_file=users_file)
             pro = get_pro_list(users_file=users_file)
             registered = []
