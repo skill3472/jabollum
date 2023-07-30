@@ -122,7 +122,12 @@ def id(id):
                 data[f"{i}"]["score"] = round(data[f"{i}"]["score"], 2)
             admins = get_admin_list(users_file=users_file)
             pro = get_pro_list(users_file=users_file)
-            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn, admins=admins, pro=pro, uid=session['user'])
+            registered = []
+            for i in range(len(review_data)):
+                if check_ip(review_data[i]['uid']) == False:
+                    registered.append(review_data[i]['uid']) 
+            print(registered)
+            return render_template('jabol_page.html', jabol_data=data[f"{id}"], id=id, review_data=review_data, isChild=True, site_key=SECRETS['site_key'], loggedIn=loggedIn, admins=admins, pro=pro, uid=session['user'], registered=registered)
         elif request.method == "POST":
             # response = request.form['g-recaptcha-response']
             # verify_response = requests.post(url=f'{VERIFY_URL}?secret={SECRETS["secret_key"]}&response={response}')

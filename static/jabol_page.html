@@ -49,7 +49,7 @@
         <tbody>
             {% for review in review_data %}
             <tr>
-                {% if review['name'] != 'Anonimowy użytkownik' %}
+                {% if review['uid'] in registered %}
                     {% if review['uid'] in admins %}
                         <td scope="row"><a href="/profile/{{ review['uid'] }}" class="userAdmin">{{ review['name'] }}</a></td>
                     {% elif review['uid'] in pro %}

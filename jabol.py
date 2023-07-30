@@ -1,6 +1,7 @@
 import os
 import json
 import bcrypt
+import re
 
 def readfile(file):
     if os.path.exists(file) and os.stat(file).st_size > 0:
@@ -62,9 +63,12 @@ def purge_db(file1, file2):
         return 'Anulowano.'
     
 def hash_password(plain_text_password):
+    plain_text_password = plain_text_password.encode('utf-8')
     return bcrypt.hashpw(plain_text_password, bcrypt.gensalt())
 
 def check_password(plain_text_password, hashed_password):
+    plain_text_password = plain_text_password.encode('utf-8')
+    hashed_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password, hashed_password)
 
 def get_user_data(users_file, session_uid):
@@ -87,3 +91,11 @@ def get_pro_list(users_file):
         if users[f"{uid}"]["pro"] == True:
             list.append(uid)
     return list
+
+def check_ip(string):
+	ex = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+	res = re.findall(ex, string)
+	if len(res) > 0:
+		return True
+	else:
+		return False
