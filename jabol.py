@@ -47,9 +47,10 @@ def countUnverified(file):
             count += 1
     return count
 
-def purge_db(file1, file2):
+def purge_db(file1, file2, file3):
     db1 = readfile(file1)
     db2 = readfile(file2)
+    db3 = readfile(file3)
     x = input('TEN PROGRAM KASUJE OBIE BAZY DANYCH. OBIE KURWA BAZY DANYCH.\nCZY NA PEWNO CHCESZ TO ZROBIC IDIOTO? (ABY POTWIERDZIC, WPISZ "JESTEM DEBILEM"): ')
     if x == 'JESTEM DEBILEM':
         for i in range(1, int(list(db1)[-1])+1):
@@ -58,7 +59,10 @@ def purge_db(file1, file2):
         for i in range(1, int(list(db2)[-1])+1):
             if db2.get(f"{i}") != None:
                 removeentry(file2, i)
-        return 'Wyczyszczono obie bazy danych!'
+        for i in range(1, int(list(db3)[-1])+1):
+            if db3.get(f"{i}") != None:
+                removeentry(file3, i)
+        return 'Wyczyszczono wszystkie bazy danych!'
     else:
         return 'Anulowano.'
     
