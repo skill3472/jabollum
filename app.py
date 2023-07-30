@@ -99,14 +99,13 @@ def kofi_verify():
         return "Bad token"
     else:
         users = readfile(users_file)
-        if req["from_name"] in [user["username"] for user in users]:
-            users["from_name"]["pro"] = True
+        if req["message"] in [user["username"] for user in users]:
+            users["message"]["pro"] = True
             for i in users:
                 if users[f'{i}']["username"] == request.form["username"]:
-                    user = users[f'{i}']
                     uid = i
             edit_database(uid, "pro", True, users_file)
-            return f"{req['from_name']} marked pro"
+            return f"{req['message']} marked pro"
         else:
             return "No user registered with this name"
 
