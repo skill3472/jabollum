@@ -353,6 +353,7 @@ def remove_review(id):
         if reviews[f"{id}"]['uid'] == uid:
             x = id
             removeentry(review_file, x)
+            add_points(uid, -50, users_file)
         return redirect(f"/archive")
 
 if __name__ == '__main__':
