@@ -5,9 +5,10 @@ from jabol import *
 from datetime import datetime
 import shutil
 
-file = "db/db.json"
+FILE = "db/db.json"
 reviews_file = "db/reviews.json"
 BACKUP_PATH = "db/backups/"
+USERS_FILE = 'db/users.json'
 
 def addentry(file):
     data = {}
@@ -44,6 +45,8 @@ def verifyEntries(file):
         if x == "y":
             print(i[0], "zweryfikowano")
             edit_database(i[0], "verified", True, file)
+            if check_ip(i[1]['votes'][0]) == False:
+                add_points(i[1]['votes'][0], 50, USERS_FILE)
         elif x == "n":
             print(i[0], "odrzucono")
             removeentry(file, i[0])
@@ -63,7 +66,8 @@ def verifyReviews(file):
         x = input().lower()
         if x == "y":
             print(i[0], "zweryfikowano")
-            edit_database(i[0], "verified", True, file)
+            edit_database(i[0], "verified", True, reviews_file)
+            add_points(i[1]['uid'], 50, USERS_FILE)
         elif x == "n":
             print(i[0], "odrzucono")
             removeentry(file, i[0])
@@ -82,7 +86,7 @@ def backup(main_file, review_file, backup_location):
         pass
 
 def main():
-    x = countUnverified(file)
+    x = countUnverified(FILE)
     y = countUnverified(reviews_file)
     print('''
    mmm         #             ""#    ""#
@@ -96,23 +100,23 @@ def main():
     choice = input("Wybierz opcje: \n 1. Dodaj nowy wpis \n 2. Wyswietl baze danych\n 3. Usun wpis\n 4. Weryfikuj wpisy\n 5. Weryfikuj recenzje\n 6. Backup\n 7. Wyjdz\n")
     match choice:
         case "1":
-            print(addentry(file))
+            print(addentry(FILE))
             main()
         case "2":
-            print(printfile(file))
+            print(printfile(FILE))
             main()
         case "3":
-            removeentry(file, input("Podaj id wpisu do usuniecia: "))
+            removeentry(FILE, input("Podaj id wpisu do usuniecia: "))
             print("Wpis usuniety!")
             main()
         case "4":
-            verifyEntries(file)
+            verifyEntries(FILE)
             main()
         case "5":
             verifyReviews(reviews_file)
             main()
         case "6":
-            backup(file, reviews_file, BACKUP_PATH)
+            backup(FILE, reviews_file, BACKUP_PATH)
             main()
         case "7":
             exit()

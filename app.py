@@ -196,7 +196,10 @@ def submit_suggestion():
     elif request.method == "POST":
         db = readfile(file)
         new_entry = {}
-        user_id = str(request.headers['x-real-ip'])
+        if 'user' in session:
+            user_id = session['user']
+        else:
+            user_id = str(request.headers['x-real-ip'])
         image = request.files.get("image")
         if not image:
             flash('Brak pliku!')
