@@ -2,13 +2,20 @@
 import json
 import os
 from jabol import *
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import shutil
+import yaml
 
 FILE = "db/db.json"
 reviews_file = "db/reviews.json"
 BACKUP_PATH = "db/backups/"
 USERS_FILE = 'db/users.json'
+
+with open("config.yaml", "r") as f:
+    CONFIG = yaml.safe_load(f)
+
+UTC_OFFSET = CONFIG['utc_offset']
+tzinfo = timezone(timedelta(hours=UTC_OFFSET))
 
 def addentry(file):
     data = {}
@@ -75,7 +82,7 @@ def verifyReviews(file):
             print("To nie jest poprawna wartosc!")
 
 def backup(main_file, review_file, backup_location):
-    date = datetime.now().strftime("%d-%m-%Y_%H-%M")
+    date = datetime.now(tzinfo).strftime("%d-%m-%Y_%H-%M")
     path = backup_location + date
     try:
         os.makedirs(path)

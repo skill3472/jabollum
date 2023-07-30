@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from jabol import *
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import yaml
 import requests
 import bcrypt
@@ -22,6 +22,7 @@ UPLOAD_FOLDER = CONFIG["upload_folder"]
 file = CONFIG["main_db_file"]
 review_file = CONFIG["review_db_file"]
 users_file = CONFIG["users_db_file"]
+UTC_OFFSET = CONFIG['utc_offset']
 
 app = Flask(__name__, template_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -36,6 +37,8 @@ user_colors = { # Nie użyte jeszcze nigdzie, może użyjemy
     "donator": "gold",
     "none": "grey"
 }
+
+tzinfo = timezone(timedelta(hours=UTC_OFFSET))
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -139,7 +142,7 @@ def id(id):
             new_entry = {}
             new_entry["drink_id"] = id
             new_entry["review"] = request.form["review"]
-            new_entry["date"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
+            new_entry["date"] = datetime.now(tzinfo).strftime("%d.%m.%Y - %H:%M")
             new_entry["verified"] = False
             if "user" in session:
                 userdat = get_user_data(users_file, session["user"])
@@ -263,7 +266,7 @@ def register():
             new_user = {}
             new_user["username"] = request.form["username"]
             new_user["password"] = hash_password(request.form["password"])
-            new_user["date_created"] = datetime.now().strftime("%d.%m.%Y - %H:%M")
+            new_user["date_created"] = datetime.now(tzinfo).strftime("%d.%m.%Y - %H:%M")
             new_user["last_login"] = new_user["date_created"]
             new_user["points"] = 0
             new_user["pro"] = False
@@ -297,7 +300,7 @@ def login():
                 uid = i
         if found:
             if check_password(request.form["password"], user["password"]):
-                edit_database(uid, "last_login", datetime.now().strftime("%d.%m.%Y - %H:%M"), users_file)
+                edit_database(uid, "last_login", datetime.now(tzinfo).strftime("%d.%m.%Y - %H:%M"), users_file)
                 session.permanent = True
                 session["user"] = uid
                 flash("Zalogowano pomyślnie!")
