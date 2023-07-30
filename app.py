@@ -145,6 +145,11 @@ def id(id):
                 userdat = get_user_data(users_file, session["user"])
                 new_entry["name"] = userdat["username"]
                 new_entry["uid"] = session["user"]
+                reviews = readfile(review_file)
+                for rev in reviews:
+                    if reviews[rev]['uid'] == session['user'] and reviews[rev]['drink_id'] == id:
+                        flash("Już dodałeś recenzję do tego jabola!")
+                        return redirect(f"/archive/{id}")
             else:
                 new_entry["name"] = "Anonimowy użytkownik"
                 new_entry["uid"] = str(request.headers['x-real-ip'])
