@@ -9,6 +9,9 @@ Profil {{ userdata['username'] }}
 {% block content %}
 <div class="user-info" style="text-align: center; padding-top: 3%;">
     <h1 class="user">{{ userdata['username'] }}</h1>
+    {% if userdata['pro'] %}
+    <p class="lead">Ten użytkownik wspiera nasz serwis. Dziękujemy! :)</p>
+    {% endif %}
     <p>Ostatnie logowanie: {{ userdata['last_login'] }}</p>
     <p>Konto utworzone: {{ userdata['date_created'] }}</p>
     <p>Punkty: {{ userdata['points'] }}</p>
