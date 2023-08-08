@@ -315,7 +315,7 @@ def login():
                 session.permanent = True
                 session["user"] = uid
                 flash("Zalogowano pomyślnie!")
-                return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=True)
+                return redirect("/")
             else:
                 flash("Wprowadzone dane są nieprawidłowe.")
                 return render_template("login.html", site_key=SECRETS['site_key'], loggedIn=loggedIn)
