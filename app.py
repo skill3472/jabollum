@@ -40,6 +40,8 @@ user_colors = { # Nie użyte jeszcze nigdzie, może użyjemy
 
 tzinfo = timezone(timedelta(hours=UTC_OFFSET))
 
+FORBIDDEN = '403: Nie masz uprawnień do wejścia na tą stronę.'
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -369,6 +371,84 @@ def remove_review(id):
             removeentry(review_file, x)
             add_points(uid, -50, users_file)
         return redirect(f"/archive")
+
+@app.route("/admin")
+def admin():
+    if 'user' not in session:
+        return FORBIDDEN, 403
+    uid = session['user']
+    udata = get_user_data(users_file, uid)
+    if udata['admin'] == False:
+        return FORBIDDEN, 403
+    else:
+        r = readfile(review_file)
+        reviews = []
+        for i in r:
+            if r[i]['verified'] == False:
+                r[i]['idx'] = i
+                reviews.append(r[i])
+        j = readfile(file)
+        jabole = []
+        for i in j:
+            if j[i]['verified'] == False:
+                j[i]['idx'] = i
+                jabole.append(j[i])
+                print(j)
+        return render_template('admin.html', loggedIn=True, reviews=reviews, jabole=jabole)
+
+@app.route("/admin/acceptR/<id>", methods=["GET"])
+def admin_acceptR(id):
+    if 'user' not in session:
+        return FORBIDDEN, 403
+    uid = session['user']
+    udata = get_user_data(users_file, uid)
+    if udata['admin'] == False:
+        return FORBIDDEN, 403
+    else:
+        edit_database(id, 'verified', True, review_file)
+        flash("Zaakceptowano recenzje!")
+        return redirect("/admin")
+
+@app.route("/admin/accept/<id>", methods=["GET"])
+def admin_accept(id):
+    if 'user' not in session:
+        return FORBIDDEN, 403
+    uid = session['user']
+    udata = get_user_data(users_file, uid)
+    if udata['admin'] == False:
+        return FORBIDDEN, 403
+    else:
+        edit_database(id, 'verified', True, file)
+        flash("Zaakceptowano jabola!")
+        return redirect("/admin")
+
+@app.route("/admin/removeR/<id>", methods=["GET"])
+def admin_removeR(id):
+    if 'user' not in session:
+        return FORBIDDEN, 403
+    uid = session['user']
+    udata = get_user_data(users_file, uid)
+    if udata['admin'] == False:
+        return FORBIDDEN, 403
+    else:
+        removeentry(review_file, id)
+        flash("Odrzucono recenzje!")
+        return redirect("/admin")
+
+@app.route("/admin/remove/<id>", methods=["GET"])
+def admin_remove(id):
+    if 'user' not in session:
+        return FORBIDDEN, 403
+    uid = session['user']
+    udata = get_user_data(users_file, uid)
+    if udata['admin'] == False:
+        return FORBIDDEN, 403
+    else:
+        removeentry(file, id)
+        flash("Odrzucono jabola!")
+        return redirect("/admin")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

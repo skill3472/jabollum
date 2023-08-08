@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Panel administracyjny{% endblock %}
+{% block content %}
+<div style="text-align: center;">
+    <p class="lead">Siema admin! Tu możesz władać jabolami.</p>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card card-default text-white bg-dark">
+                <div class="card-content">
+                    <h5 class="card-title">Jabole do zweryfikowania</h5>
+                    <table class="table table-striped table-dark table-sm">
+                        <thead>
+                            <th scope="col">Zdjęcie</th>
+                            <th scope="col">Nazwa</th>
+                            <th scope="col">Sklepy</th>
+                            <th scope="col">Opis</th>
+                            <th scope="col">Opcje</th>
+                        </thead>
+                        <tbody>
+                            {% for jabol in jabole %}
+                            <tr>
+                                <td>
+                                    <img class="thumb" src="{{ url_for('static', filename=jabol['image']) }}">
+                                </td>
+                                <td>{{ jabol['name'] }}</td>
+                                <td>{{ jabol['shops'] }}</td>
+                                <td>{{ jabol['description'] }}</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" id="j{{ jabol['idx'] }}y">Zaakceptuj</button>
+                                    <button class="btn btn-danger btn-sm" id="j{{ jabol['idx'] }}n">Odrzuć</button>
+                                </td>
+                            </tr>
+                            <script>
+                                document.getElementById("j{{ jabol['idx'] }}y").onclick = function () {
+                                    location.href = "/admin/accept/{{ jabol['idx'] }}";
+                                };
+                                document.getElementById("j{{ jabol['idx'] }}n").onclick = function () {
+                                    location.href = "/admin/remove/{{ jabol['idx'] }}";
+                                };
+                            </script>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card card-default text-white bg-dark">
+                <div class="card-content">
+                    <h5 class="card-title">Recenzje do zweryfikowania</h5>
+                    <table class="table table-striped table-dark table-sm">
+                        <thead>
+                            <th scope="col">Uzytkownik</th>
+                            <th scope="col">Recenzja</th>
+                            <th scope="col">Opcje</th>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                            <tr>
+                                <td>{{ review['name'] }}</td>
+                                <td>{{ review['review'] }}</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" id="{{ review['idx'] }}y">Zaakceptuj</button>
+                                    <button class="btn btn-danger btn-sm" id="{{ review['idx'] }}n">Odrzuć</button>
+                                </td>
+                            </tr>
+                            <script>
+                                document.getElementById("{{ review['idx'] }}y").onclick = function () {
+                                    location.href = "/admin/acceptR/{{ review['idx'] }}";
+                                };
+                                document.getElementById("{{ review['idx'] }}n").onclick = function () {
+                                    location.href = "/admin/removeR/{{ review['idx'] }}";
+                                };
+                            </script>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
