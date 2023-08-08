@@ -74,16 +74,19 @@
       <img src="static/media/banner.png" style="max-width: 100%;">
       {% endif %}
     </div>
-    <div class="flash" style="text-align: center;padding-top: 3%;">
-      {% with messages = get_flashed_messages() %}
+    <div class="row" style="margin-top:10px;">
+      <div class="col-4"></div>
+      <div class="col-4">
+        {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for msg in messages %}
-            <blockquote class="blockquote">
-              <p>{{msg}}</p>
-            </blockquote>
+          <div class="alert alert-success" role="alert">
+            {{ msg }}
+          </div>          
           {% endfor %}
         {% endif %}
       {% endwith %}
+      </div>
     </div>
     <div class="content" style="margin-bottom: 5%;">
         {% block content %}{% endblock %}
