@@ -195,6 +195,8 @@ def submit_vote(id):
     else:
         user_id = str(request.headers['x-real-ip'])
     score = int(request.form["score"])
+    if score > 10 or score < 0:
+        return f"<b>Ocena {score} wykracza poza ramy 0-10</b>"
     if user_id not in database[f"{id}"]["votes"]:
         database[f"{id}"]["votes"].append(user_id)
         database[f"{id}"]["scores"].append(score)
